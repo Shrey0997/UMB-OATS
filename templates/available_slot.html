@@ -1,0 +1,56 @@
+{% extends "base_bootstrapped.html" %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-between sticky-top flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Available Slots</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+    </div>
+
+    <form method="GET" id="filter-form">
+        <label for="course-select">Course:</label>
+        <select name="course" id="course-select">
+            <option value="">-- Select Course --</option>
+            {% for course in user.student.courses.all %}
+                <option value="{{ course }}">{{ course.c_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="tutor-select">Tutor:</label>
+        <select name="tutor" id="tutor-select">
+            <option value="">-- Select Tutor --</option>
+            {% for tutor in tutors %}
+                {% if not request.GET.course or course.id in tutor.courses.all %}
+                    <option value="{{ tutor }}">{{ tutor.user.username }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+        <input type="submit"  class="btn btn-primary" value="Filter">
+    </form>
+
+    <div class="row">
+        {% for session in slots %}
+            {% if session.status == 'A' %}
+                {% if not request.GET.course or session.course.c_name == request.GET.course %}
+                {% if not request.GET.tutor or session.tutor.user.username == request.GET.tutor %}
+                <div class="col-md-4 mb-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{session.tutor}}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
+                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
+                            <p class="card-text">Course : {{ session.course }}</p>
+                            <a href="{% url 'booking_page' session.id %}" class="card-link">Book</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock content %}
+

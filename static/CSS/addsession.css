@@ -1,0 +1,201 @@
+.component-2 {
+    padding: 0 430px 260.52px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .oats {
+    height: 8.91%;
+    width: 11.5%;
+    font-family: "Poppins";
+    font-size: 36px;
+    font-weight: 800;
+    line-height: normal;
+    color: rgba(255, 255, 255, 1);
+    display: flex;
+    text-align: center;
+    margin-bottom: 66px;
+    letter-spacing: 0.1px;
+  }
+  .relative-wrapper-one {
+    margin-left: 346px;
+    position: relative;
+  }
+  .login-page {
+    background-color: rgba(255, 252, 252, 1);
+    padding: 24px 86px 29.43px 88px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+  }
+  .following {
+    height: 7.59%;
+    width: 28.25%;
+    font-family: "Poppins";
+    font-size: 30px;
+    font-weight: 600;
+    line-height: normal;
+    color: rgba(23, 23, 37, 1);
+    display: flex;
+    text-align: center;
+    margin-bottom: 25.54px;
+    margin-left: 190px;
+    letter-spacing: 0.1px;
+  }
+  .flex-wrapper-one {
+    background-color: rgba(248, 248, 248, 1);
+    margin-bottom: 50.45px;
+    margin-left: 3px;
+    padding: 42.04px 411px 22.06px 19px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: flex-start;
+  }
+  .vector {
+    width: 25.85%;
+    height: 94.51%;
+    margin-right: 9.64px;
+  }
+  .umb-email {
+    height: 100%;
+    width: 68.13%;
+    font-family: "Poppins";
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
+    color: rgba(150, 154, 184, 1);
+    display: flex;
+    letter-spacing: 0.1px;
+  }
+  .flex-wrapper-two {
+    background: linear-gradient(
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0)
+      ),
+      rgba(250, 247, 247, 1);
+    margin-bottom: 25.23px;
+    margin-left: 3px;
+    padding: 24.17px 415px 25.14px 20px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+  }
+  .group {
+    width: 41px;
+    height: 46.32px;
+    margin-right: 14px;
+  }
+  .following-two {
+    height: 68.07%;
+    width: 64.52%;
+    font-family: "Poppins";
+    font-size: 20px;
+    font-weight: 600;
+    line-height: normal;
+    color: rgba(150, 154, 184, 1);
+    display: flex;
+    letter-spacing: 0.1px;
+  }
+  .following-three {
+    height: 4.24%;
+    width: 29.99%;
+    font-family: "Poppins";
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 24px;
+    color: rgba(0, 98, 255, 1);
+    display: flex;
+    text-align: center;
+    margin-bottom: 57.98px;
+    letter-spacing: 0.1px;
+  }
+  .group-104 {
+    background-color: rgba(29, 33, 132, 1);
+    margin-bottom: 26.75px;
+    margin-left: 38px;
+    padding: 11.99px 230.67px 14.99px;
+    display: flex;
+    align-items: flex-start;
+  }
+  .following-four {
+    height: 100%;
+    width: 100%;
+    font-family: "Poppins";
+    font-size: 15px;
+    font-weight: 600;
+    line-height: normal;
+    color: rgba(255, 255, 255, 1);
+    display: flex;
+    text-align: center;
+    letter-spacing: 0.1px;
+  }
+  .flex-wrapper-three {
+    margin-bottom: 25.25px;
+    padding: 0 0 0 51px;
+    display: flex;
+    align-items: center;
+  }
+  .line-49 {
+    width: 47.89%;
+    height: 4.76%;
+    background-color: rgba(228, 230, 236, 1);
+  }
+  .line-49:not(:last-of-type) {
+    margin-right: 27.22px;
+  }
+  .following-five {
+    width: 4.25%;
+    font-family: "Poppins";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: normal;
+    color: rgba(150, 154, 184, 1);
+    align-self: stretch;
+    display: flex;
+    text-align: center;
+    margin-right: 23.67px;
+    letter-spacing: 0.1px;
+  }
+  .following-six {
+    height: 4.46%;
+    width: 30.86%;
+    display: flex;
+    text-align: center;
+    margin-left: 156px;
+    font-family: "Poppins";
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 24px;
+    color: rgba(150, 154, 184, 1);
+  }
+  .following-emphasis-1 {
+    font-family: "Poppins";
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 24px;
+    color: rgba(0, 98, 255, 1);
+    letter-spacing: 0.1px;
+  }
+  .following-seven {
+    width: 7.17%;
+    height: 3.88%;
+    font-family: "Poppins";
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 24px;
+    color: rgba(0, 98, 255, 1);
+    text-align: center;
+    position: absolute;
+    right: 274px;
+    bottom: 28px;
+    letter-spacing: 0.1px;
+  }
+  .pencil-dynamic-gradient {
+    width: 69.01%;
+    height: 99.86%;
+    position: absolute;
+    right: -304.33px;
+    bottom: -157.15px;
+  }

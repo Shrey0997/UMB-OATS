@@ -1,0 +1,104 @@
+html,
+body {
+  height: 100%;
+}
+
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #005a8b;
+}
+
+.form-signin {
+  max-width: 700px;
+  padding: 15px;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="username"] {
+    margin-bottom: 15px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-radius: 9px;
+  }
+
+.form-signin input[type="firstname"] {
+    margin-bottom: 15px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-radius: 9px;
+  }
+
+.form-signin input[type="lastname"] {
+    margin-bottom: 15px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-radius: 9px;
+  }
+  
+  
+.form-signin input[type="email"] {
+  margin-bottom: 9px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-radius: 9px;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 15px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-radius: 9px;
+}
+
+button[type="submit"] {
+  margin-bottom: 10px;
+}
+
+.oats {
+  display: flex;
+  align-items: center;
+}
+
+.oats img {
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.oats h1 {
+  margin-bottom: 15px;
+}
+
+.main-box {
+  border: 2px solid rgb(12, 0, 0);
+  padding: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  max-width: 550px;
+  margin: 0 auto;
+  top: 0;left: 0;bottom:0;right: 0;
+  background-color: #fcfcfc;
+}
+
+.flex-wrapper-three {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0; /* add margin to separate from surrounding elements */
+  }
+  
+  .line-49 {
+    flex: 2; /* use flex property to make the lines fill the available space */
+    height: 1px;
+    background-color: black;
+  }
+  
+  .following-five {
+    margin: 0 10px; /* add margin to separate from the lines */
+    font-weight: bold;
+  }

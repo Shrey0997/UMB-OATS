@@ -1,0 +1,34 @@
+{% extends "base_bootstrapped.html" %}
+
+{% block content %}
+    <div class="d-flex justify-content-between sticky-top flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Book Slot</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+    </div>
+        <form method="POST">
+            {% csrf_token %}
+            <p><strong>Tutor:</strong> {{ slot.tutor }}</p>
+            <p><strong>Course:</strong> {{ slot.course }}</p>
+            <p><strong>Date:</strong> {{ slot.date }}</p>
+            <p><strong>Time Block:</strong> {{ slot.timeblock }}</p>
+            <p><strong>Status:</strong> {{ slot.status }}</p>
+            {% if user.is_authenticated %}
+            {% if user.is_superuser or user.tutor  %}
+                <label for="student">Student:</label>
+                <select name="student" id="student">
+                    <option value="">---Select Student---</option>
+                    {% for student in slot.course.students.all %}
+                        <option value="{{ student.id }}">{{ student }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit"  class="btn btn-primary" onclick="return confirm('Are you sure you want to assign this slot?')">Assign Student</button>
+            {% else %}
+                <input type="hidden" name="student" value="{{ user.student.id }}">
+                <button type="submit"  class="btn btn-primary" onclick="return confirm('Are you sure you want to book this slot?')">Book</button>
+            {% endif %}
+            {% endif %}
+
+        </form>
+
+{% endblock %}

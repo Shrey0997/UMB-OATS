@@ -1,0 +1,49 @@
+{% extends 'base_bootstrapped.html' %}
+
+{% block title %}Availability{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Enter Availability</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+
+        <section>
+            <form method="POST">
+                {% csrf_token %}
+                {% if request.user.is_superuser %}
+                    {{ form.as_p }}
+                {% else %}
+                    <p>
+                        <label for="{{ form.tutor.id_for_label }}">Tutor:</label>
+                        {{ request.user.tutor }}
+                    </p>
+                    <p>
+                        <label for="{{ form.date.id_for_label }}">Date:</label>
+                        {{ form.date }}
+                    </p>
+                    <p>
+                        <label for="{{ form.timeblock.id_for_label }}">Time block:</label>
+                        {{ form.timeblock }}
+                    </p>
+                    <p>
+                        <label for="{{ form.course.id_for_label }}">Course:</label>
+                        {{ form.course }}
+                    </p>
+                    <p>
+                        <label for="{{ form.status_for_label }}">Status:</label>
+                        {{ form.status }}
+                    </p>
+                {% endif %}
+                <button type="submit" class="btn btn-primary">Set availability</button>
+            </form>
+
+
+        </section>
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base_bootstrapped.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+        <div class="d-flex justify-content-between sticky-top flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Home</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            {% if request.user.student %}
+                <div class="sticky-top">
+                <h2> Today's student sessions: </h2>
+                {% for session in user.student.booked_slots.all %}
+                    {% if False %} {# session.date == today #}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{session.tutor}}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
+                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
+                            <p class="card-text">Course : {{ session.course }}</p>
+                            <a href="#" class="card-link">Cancel session</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% empty %}
+                    <p>No sessions found for Today.</p>
+                {% endfor %}
+                </div>
+                <div class="sticky-top">
+                <h2> Upcoming student sessions: </h2>
+
+                {% for session in user.student.booked_slots.all %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ session.tutor }}- {{session.date}}</h5>
+                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
+                            <p class="card-text">Course : {{ session.course }}</p>
+                            <a href="#" class="btn btn-primary">Cancel session</a>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No upcoming sessions found.</p>
+                {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if request.user.tutor %}
+                <h2> Today's tutoring sessions: </h2>
+
+                {% for session in user.tutor.availabilities.all %}
+                    {% if session.date == today %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{session.booked_by}}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
+                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
+                            <p class="card-text">Course : {{ session.course }}</p>
+                            <a href="#" class="card-link">Cancel session</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% empty %}
+                    <p>No tutoring sessions found for Today.</p>
+                {% endfor %}
+
+                <h2> Upcoming tutoring sessions: </h2>
+                {% for session in user.tutor.availabilities.all %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ session.booked_by }}- {{session.date}}</h5>
+                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
+                            <p class="card-text">Course : {{ session.course }}</p>
+                            <a href="#" class="btn btn-primary">Cancel session</a>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No upcoming sessions found.</p>
+                {% endfor %}
+            {% endif %}
+
+            {% if user.is_superuser %}
+                <a href="{% url 'assign_roles' %}"><button class = "btn btn-primary" > Assign Roles </button></a>
+            {% endif %}
+        {% endif %}
+{% endblock %}

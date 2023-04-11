@@ -1,0 +1,44 @@
+{% extends 'base_bootstrapped.html' %}
+
+{% block title %}Availability{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Profile</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+    </div>
+    {% if user.is_authenticated and user.student %}
+        <article>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to make changes?')">Save</button>
+            </form>
+        </article>
+    {% endif %}
+    {% if user.is_authenticated and user.is_superuser %}
+        <article>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to make changes?')">Save</button>
+            </form>
+        </article>
+    {% endif %}
+    {% if user.is_authenticated and user.tutor %}
+
+        <article>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to make changes?')">Save</button>
+            </form>
+        </article>
+    {% endif %}
+    <div>
+        {% for msg in messages%}
+            <h3> {{msg}} </h3>
+        {% endfor %}
+    </div>
+{% endblock %}

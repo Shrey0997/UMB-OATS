@@ -1,0 +1,44 @@
+{% extends 'account/base.html' %}
+
+{% block title %}Login{% endblock %}
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="oats">
+            <img src="https://www.umb.edu/assets/images/wabi/new-umb-logo-blue.svg" alt="oats image" width="86" height="67">
+            <h1 class ="h3 mb-3 fw-normal align-content-center">UMass OATS</h1>
+        </div>
+        <h1 class="h3 mb-3 fw-normal">LOGIN</h1>
+
+        <div class="form-floating">
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username">
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <label for="password">Password</label>
+        </div>
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <div class="mb-3 fw-normal">
+            {% for msg in messages%}
+                <p>{{msg}}</p>
+            {% endfor %}
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button>
+        <button type="button"><a href={% url 'forgot_password' %}>Forgot Password?</a></button>
+
+        <div class="flex-wrapper-three">
+            <div class="line-49"></div>
+            <p class="following-five">or</p>
+            <div class="line-49"></div>
+        </div>
+        <p class="following-six">Don't have an account?<strong class="following-emphasis-1"></strong>
+            <button type="button"><a href="{% url 'signup' %}">Register</a></button></p>
+    </form>
+{% endblock %}
