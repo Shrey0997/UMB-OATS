@@ -34,6 +34,7 @@
                 <h2> Upcoming student sessions: </h2>
 
                 {% for session in user.student.booked_slots.all %}
+                    {% if session.date >= today %}
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">{{ session.semester }}</h6>
@@ -43,6 +44,7 @@
                             <a href="#" class="btn btn-primary">Cancel session</a>
                         </div>
                     </div>
+                    {% endif %}
                 {% empty %}
                     <p>No upcoming sessions found.</p>
                 {% endfor %}
@@ -71,6 +73,7 @@
 
                 <h2> Upcoming tutoring sessions: </h2>
                 {% for session in user.tutor.availabilities.all %}
+                {% if session.date > today %}
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">{{ session.semester }}</h6>
@@ -80,6 +83,7 @@
                             <a href="#" class="btn btn-primary">Cancel session</a>
                         </div>
                     </div>
+                {% endif %}
                 {% empty %}
                     <p>No upcoming sessions found.</p>
                 {% endfor %}
