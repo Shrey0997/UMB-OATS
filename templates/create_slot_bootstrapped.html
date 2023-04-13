@@ -37,12 +37,47 @@
                         <label for="{{ form.status_for_label }}">Status:</label>
                         {{ form.status }}
                     </p>
+                    <p>
+                        <label for="{{ form.semester_for_label }}">Semester:</label>
+                        {{ form.semester }}
+                    </p>
                 {% endif %}
                 <button type="submit" class="btn btn-primary">Set availability</button>
             </form>
 
 
         </section>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const dateInput = document.getElementById('id_date');
+                const semesterInput = document.getElementById('id_semester');
+
+                // Define a function that updates the semester field based on the selected date
+                function updateSemester() {
+                    const date = new Date(dateInput.value);
+                    const month = date.getMonth() + 1;
+                    let semester = '';
+
+                    if (month >= 1 && month <= 4) {
+                        semester = 'Spring';
+                    } else if (month >= 5 && month <= 8) {
+                        semester = 'Summer';
+                    } else if (month >= 9 && month <= 12) {
+                        semester = 'Fall';
+                    } else {
+                        semester = 'Spring';
+                    }
+
+                    semesterInput.value = semester;
+                }
+
+                // Call the updateSemester function whenever the date input field is changed
+                dateInput.addEventListener('change', updateSemester);
+
+                // Set the initial value of the semester field based on the current date
+                updateSemester();
+            });
+        </script>
 
     {% endif %}
 

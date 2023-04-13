@@ -17,6 +17,7 @@
                     {% if False %} {# session.date == today #}
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
+                            <h5 class="card-title">{{session.tutor}} || {{ session.semester }}</h5>
                             <h5 class="card-title">{{session.tutor}}</h5>
                             <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
                             <p class="card-text">Timing and location : {{ session.timeblock }}</p>
@@ -35,6 +36,7 @@
                 {% for session in user.student.booked_slots.all %}
                     <div class="card">
                         <div class="card-body">
+                            <h6 class="card-title">{{ session.semester }}</h6>
                             <h5 class="card-title">{{ session.tutor }}- {{session.date}}</h5>
                             <p class="card-text">Timing and location : {{ session.timeblock }}</p>
                             <p class="card-text">Course : {{ session.course }}</p>
@@ -54,6 +56,7 @@
                     {% if session.date == today %}
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
+                            <h6 class="card-title">{{ session.semester }}</h6>
                             <h5 class="card-title">{{session.booked_by}}</h5>
                             <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
                             <p class="card-text">Timing and location : {{ session.timeblock }}</p>
@@ -70,6 +73,7 @@
                 {% for session in user.tutor.availabilities.all %}
                     <div class="card">
                         <div class="card-body">
+                            <h6 class="card-title">{{ session.semester }}</h6>
                             <h5 class="card-title">{{ session.booked_by }}- {{session.date}}</h5>
                             <p class="card-text">Timing and location : {{ session.timeblock }}</p>
                             <p class="card-text">Course : {{ session.course }}</p>

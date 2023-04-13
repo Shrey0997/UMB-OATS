@@ -15,6 +15,7 @@ STATUS_CHOICES = [
     ('B', 'Booked'),
     ('C', 'Canceled')
 ]
+
 class Course(models.Model):
     c_name = models.CharField(max_length=100)
     c_code = models.CharField(max_length=50, unique=True, null=False)
@@ -47,9 +48,25 @@ class Availability (models.Model):
     booked_by = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True, related_name='booked_slots')
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    semester = models.CharField(max_length=8, null=True)
     def __str__(self):
         return f"{self.tutor} - {self.date} - {self.get_timeblock_display()} with {self.booked_by} is {self.status}"
+    def check_semester(self):
+        today = self.date
+        if today.month >= 1 and today.month <= 4:
+            self.semester = 'SP'
+        elif today.month >= 5 and today.month <= 8:
+            self.semester = 'SU'
+        elif today.month >= 9 and today.month <= 12:
+            self.semester = 'F'
+        else:
+            # default to Spring if current month is invalid
+            self.semester = 'SP'
 
+    def save(self, *args, **kwargs):
+        self.check_semester()
+        super().save(*args, **kwargs)
+    
 class Department (models.Model):
     d_name = models.CharField(max_length=100)
     def __str__(self):
