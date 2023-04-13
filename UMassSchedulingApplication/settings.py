@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-9%i9xn&^399)_7ht_3i%rxz7ylc8h*d(f@0&hx-u@l$$h+_p^r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
