@@ -14,7 +14,7 @@
             <p><strong>Time Block:</strong> {{ slot.timeblock }}</p>
             <p><strong>Status:</strong> {{ slot.status }}</p>
             {% if user.is_authenticated %}
-            {% if user.is_superuser or user.tutor  %}
+            {% if user.is_superuser  %}
                 <label for="student">Student:</label>
                 <select name="student" id="student">
                     <option value="">---Select Student---</option>
