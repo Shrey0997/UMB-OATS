@@ -173,7 +173,12 @@ def available_slots(request):
     courses = Course.objects.all()
     tutors = Tutor.objects.all()
     slots = Availability.objects.all().order_by('date')
-    return render(request, 'available_slot.html', {'slots': slots,'courses':courses,'tutors':tutors})
+    stud = request.user.student
+    no_show=stud.no_shows
+    ns=True
+    if no_show >2:
+        ns=False
+    return render(request, 'available_slot.html', {'slots': slots,'courses':courses,'tutors':tutors,'ns':ns})
 
 
 @login_required
