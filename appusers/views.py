@@ -147,9 +147,25 @@ def activate(request, uidb64, token):
 
 @login_required
 def home_view(request):
+    current_user=request.user
     today = date.today()
     slots = Availability.objects.all().order_by('date')
-    return render(request, 'home_bootstrapped.html', {'slots': slots,'today':today})
+    try:
+        student = current_user.student
+        todaysessions = Availability.objects.filter(booked_by=student, date=today).order_by('timeblock')
+        upcsessions = Availability.objects.filter(booked_by=student, date__gt=today).order_by('date')
+    except Student.DoesNotExist:
+        todaysessions = []
+        upcsessions = []
+    
+    try:
+        tutor = current_user.tutor
+        todaytutsessions = Availability.objects.filter(tutor=tutor, date=today).order_by('timeblock')
+        upctutsessions = Availability.objects.filter(tutor=tutor, date__gt=today).order_by('date')
+    except Tutor.DoesNotExist:
+        todaytutsessions = []
+        upctutsessions = []
+    return render(request, 'home_bootstrapped.html', {'slots': slots,'today':today, 'tsessions':todaysessions,'upsessions':upcsessions, 'ttutsessions':todaytutsessions,'uptutsessions':upctutsessions})
 
 
 @login_required
