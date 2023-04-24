@@ -1,7 +1,7 @@
 {% extends "base_bootstrapped.html" %}
 
 {% block content %}
-
+{% if ns %}
     <div class="d-flex justify-content-between sticky-top flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Available Slots</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
@@ -52,6 +52,8 @@
             {% endif %}
         {% endfor %}
     </div>
-
+{% else %}
+    <p>Please Contact Admin</p>
+{% endif %}
 {% endblock content %}
 
