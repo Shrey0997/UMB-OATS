@@ -13,38 +13,38 @@
             {% if request.user.student %}
                 <div class="sticky-top">
                 <h2> Today's student sessions: </h2>
-                {% for session in user.student.booked_slots.all %}
-                    {% if session.date == today %}
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Semester : {{ session.semester }}</h5>
-                            <h5 class="card-title">{{session.tutor}}</h5>
-                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
-                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
-                            <p class="card-text">Course : {{ session.course }}</p>
-                            {% comment %} <a href="#" class="card-link">Cancel session</a> {% endcomment %}
-                        </div>
+
+                {% for session in tsessions %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Tutor : {{session.tutor}}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
+                        <p class="card-text">Timing and location : {{ session.timeblock }}</p>
+                        <p class="card-title">Semester : {{ session.semester }}</p>
+                        <p class="card-text">Course : {{ session.course }}</p>
+                        {% comment %} <a href="#" class="card-link">Cancel session</a> {% endcomment %}
                     </div>
-                    {% endif %}
-                    {% empty %}
-                        <p>No sessions found for Today.</p>
+                </div>
+                {% empty %}
+                    <p>No sessions found for Today.</p>
                 {% endfor %}
                 </div>
                 <div class="sticky-top">
                 <h2> Upcoming student sessions: </h2>
 
-                {% for session in user.student.booked_slots.all %}
-                    {% if session.date > today %}
+                {% for session in upsessions %}
+                    
                     <div class="card">
                         <div class="card-body">
-                            <h6 class="card-title">Semester :{{ session.semester }}</h6>
-                            <h5 class="card-title">{{ session.tutor }}- {{session.date}}</h5>
+                            <h5 class="card-title">Tutor : {{session.tutor}}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
                             <p class="card-text">Timing and location : {{ session.timeblock }}</p>
+                            <p class="card-title">Semester : {{ session.semester }}</p>
                             <p class="card-text">Course : {{ session.course }}</p>
-                            {% comment %} <a href="#" class="btn btn-primary">Cancel session</a> {% endcomment %}
+                        {% comment %} <a href="#" class="card-link">Cancel session</a> {% endcomment %}
                         </div>
                     </div>
-                    {% endif %}
+                    
                 {% empty %}
                     <p>No upcoming sessions found.</p>
                 {% endfor %}
@@ -54,8 +54,8 @@
             {% if request.user.tutor %}
                 <h2> Today's tutoring sessions: </h2>
 
-                {% for session in user.tutor.availabilities.all %}
-                    {% if session.date == today %}
+                {% for session in ttutsessions %}
+
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <h6 class="card-title">Semester :{{ session.semester }}</h6>
@@ -66,15 +66,14 @@
                             {% comment %} <a href="#" class="card-link">Cancel session</a> {% endcomment %}
                         </div>
                     </div>
-                    
-                    {% endif %}
-                {% empty %}
-                    <p>No Tutoring sessions found for Today.</p>
+
+                    {% empty %}
+                        <p>No Tutoring sessions found for Today.</p>
                 {% endfor %}
 
                 <h2> Upcoming tutoring sessions: </h2>
-                {% for session in user.tutor.availabilities.all %}
-                {% if session.date > today %}
+                {% for session in uptutsessions %}
+
                     <div class="card">
                         <div class="card-body">
                             <h6 class="card-title">Semester :{{ session.semester }}</h6>
@@ -84,9 +83,8 @@
                             {% comment %} <a href="#" class="btn btn-primary">Cancel session</a> {% endcomment %}
                         </div>
                     </div>
-                {% endif %}
                 {% empty %}
-                    <p>No upcoming sessions found.</p>
+                    <p>No upcoming tutoring sessions found.</p>
                 {% endfor %}
             {% endif %}
             <div class="mb-3 fw-normal">
