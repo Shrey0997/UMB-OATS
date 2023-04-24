@@ -296,3 +296,6 @@ def assign_roles(request):
         users = User.objects.all()
         roles = Group.objects.all()
         return render(request, 'assign_roles.html', {'users': users, 'roles': roles})
+    
+def enter_dates(request):
+    return render(request, 'enter_dates.html')
