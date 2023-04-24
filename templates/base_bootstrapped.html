@@ -209,14 +209,14 @@
                         </a>
                     </li>
 
-                    {% comment %} {% if request.user.is_superuser %}
+                    {% if request.user.is_superuser %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url '' %}">
+                            <a class="nav-link" href="{% url 'enter_dates' %}">
                                 <span data-feather="layers" class="align-text-bottom"></span>
                                 Enter Holiday dates
                             </a>
                         </li>
-                    {% endif %} {% endcomment %}
+                    {% endif %}
 
                     <li class="nav-item">
                         <a class="nav-link" href="{%  url 'profile' %}">
