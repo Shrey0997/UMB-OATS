@@ -54,7 +54,6 @@ button[type="submit"] {
 }
 
 .main-box {
-  border: 2px solid rgb(12, 0, 0);
   padding: 30px;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   max-width: 500px;

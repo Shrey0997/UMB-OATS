@@ -1,4 +1,5 @@
 from django.contrib.admin.helpers import AdminForm
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.datetime_safe import date
 from UMassSchedulingApplication.settings import DEFAULT_FROM_EMAIL
@@ -31,10 +32,11 @@ def login_view(request):
             messages.error(request, "Username or password invalid")
             return redirect('login')
 
-    return render(request, 'account/login_bootstrapped.html')
+    return render(request, 'account/login.html')
 
 def logout_view(request):
     logout(request)
+    messages.success(request,"Logged out")
     return redirect('login')
 
 def signup_view(request):
@@ -47,7 +49,7 @@ def signup_view(request):
         pasw2= request.POST['pasw2']
         if(pasw1!=pasw2):
             messages.error(request,"Passwords dont match")
-            return redirect('account/signup_bootstrapped.html')
+            return redirect('account/register.html')
         else:
             user = User.objects.create_user(username,email,pasw1)
             user.first_name = firstname
@@ -67,39 +69,35 @@ def signup_view(request):
             messages.success(request,"Registered successfully")
             return redirect('activation_sent')
 
-    return render(request, 'account/signup_bootstrapped.html')
+    return render(request, 'account/register.html')
 
 def activation_sent(request):
     return render(request, 'account/activation_sent.html')
 
 def forgot_password(request):
     if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
-            # Retrieve user based on email entered in the form
-            email = form.cleaned_data.get('email')
-            try:
-                user = User.objects.get(email=email)
-            except User.DoesNotExist:
-                messages.error(request, 'No user found with the given email address')
-                return redirect('forgot_password')
-
-            # Generate and send password reset email
-            subject = 'Reset your password'
-            message = render_to_string('account/password_reset_email.html', {
-                'user': user,
-                'domain': request.get_host(),
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            })
-            from_email = DEFAULT_FROM_EMAIL
-            to_email = email
-            send_mail(subject, message, from_email, [to_email], fail_silently=False)
-            messages.success(request, 'Password reset email has been sent. Please check your email to reset your password.')
+        email= request.POST['email']
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(request, 'No user found with the given email address')
             return redirect('forgot_password')
-    else:
-        form = PasswordResetForm()
-    return render(request, 'account/forgot_password.html', {'form': form})
+
+        # Generate and send password reset email
+        subject = 'Reset your password'
+        message = render_to_string('account/password_reset_email.html', {
+            'user': user,
+            'domain': request.get_host(),
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': default_token_generator.make_token(user),
+        })
+        from_email = DEFAULT_FROM_EMAIL
+        to_email = email
+        send_mail(subject, message, from_email, [to_email], fail_silently=False)
+        messages.success(request, 'Password reset email has been sent. Please check your email to reset your password.')
+        return redirect('forgot_password')
+
+    return render(request, 'account/forgot_password.html')
 
 def passwordResetconfirm(request, uidb64, token):
     try:
@@ -318,4 +316,18 @@ def add_semester(request):
     else:
         messages.error(request, 'Enter a valid dates.')
         return redirect('enter_dates')
-    
+
+def cancel_session(request):
+    if request.method == 'POST':
+        session_id = request.POST.get('session_id')
+        session = Availability.objects.filter(pk=session_id).first()
+
+        if session and session.status == 'B':
+            session.status = 'A'
+            session.booked_by = None
+            session.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': 'Session not found or already cancelled.'})
+
+    return redirect('home')
