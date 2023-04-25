@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.urls import path
 from appusers.views import home_view, signup_view, login_view, logout_view, available_slots, book_slots, create_slot, \
-    activate, activation_sent, profile_view, assign_roles, forgot_password, passwordResetconfirm, enter_dates,add_semester
+    activate, activation_sent, profile_view, assign_roles, forgot_password, passwordResetconfirm, enter_dates, \
+    add_semester, cancel_session
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
     path('signup/', signup_view, name='signup'),
-    path('accounts/login/', login_view, name='login'),
+    path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('available/',available_slots , name='available_slots'),
     path('bookingpage/<int:availability_id>',book_slots , name='booking_page'),
@@ -19,5 +20,6 @@ urlpatterns = [
     path('forgot_password/', forgot_password, name='forgot_password'),
     path('password_reset_confirm/<uidb64>/<token>/',passwordResetconfirm , name='password_reset_confirm'),
     path('enter_dates/', enter_dates, name='enter_dates'),
-    path('add_semester/',add_semester,name='add_semester')
+    path('add_semester/',add_semester,name='add_semester'),
+    path('cancel-session/', cancel_session, name='cancel_session'),
 ]

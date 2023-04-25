@@ -8,7 +8,7 @@
 {% block content %}
 
     <!-- Content Row -->
-    <div class="row" style="margin-left: 1%;margin-top: 3%;">
+    <div class="row mr-5 ml-2 mt-3">
 
         <!-- Session Completed Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
@@ -83,7 +83,7 @@
 
     {% if user.is_authenticated %}
         {% if request.user.student %}
-            <div class="container-fluid card border-left-primary shadow py-2" style="margin-left: 1%; margin-right: 2%; margin-top: 3%;">
+            <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
                 <h2 class="m-0 font-weight-bold text-primary"> Today's sessions: </h2>
                 <hr class="sidebar-divider">
                 <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <div class="container-fluid card border-left-primary shadow py-2" style="margin-left: 1%; margin-right: 2%;margin-top: 3%;">
+            <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3" >
                 <h2 class="m-0 font-weight-bold text-primary"> Upcoming sessions: </h2>
                 <hr class="sidebar-divider">
                 <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
@@ -135,7 +135,7 @@
                                             <div class="card-body">
                                                 <p class="">Timing and location : {{ session.timeblock }}</p>
                                                 <p class="">Course : {{ session.course }}</p>
-                                                <a href="#" class="btn btn-primary">Cancel session</a>
+                                                <a href="#" class="btn btn-primary" onclick="cancelSession({{ session.id }})">Cancel session</a>
                                             </div>
                                         </div>
                                     </div>
@@ -151,10 +151,10 @@
         {% if request.user.tutor %}
 
 
-        <div class="container-fluid card border-left-primary shadow py-2" style="margin-left: 1%; margin-right: 2%; margin-top: 3%;">
+        <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
             <h2 class="m-0 font-weight-bold text-primary"> Today's tutoring sessions: </h2>
             <hr class="sidebar-divider">
-            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
+            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto mr-5 ml-2 mt-3" >
                 {% for session in ttutsessions %}
                     
                         <div class="col mb-1">
@@ -183,7 +183,7 @@
             </div>
         </div>
 
-        <div class="container-fluid card border-left-primary shadow py-2" style="margin-left: 1%; margin-right: 2%;margin-top: 3%;">
+        <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
             <h2 class="m-0 font-weight-bold text-primary"> Upcoming tutoring sessions: </h2>
             <hr class="sidebar-divider">
             <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
@@ -203,7 +203,7 @@
                                         <div class="card-body">
                                             <p class="">Timing and location : {{ session.timeblock }}</p>
                                             <p class="">Course : {{ session.course }}</p>
-                                            <a href="#" class="btn btn-primary">Cancel session</a>
+                                            <a class="btn btn-primary" onclick="cancelSession({{ session.id }})" >Cancel session</a>
                                         </div>
                                     </div>
                                 </div>
@@ -216,9 +216,31 @@
         </div>
         {% endif %}
     {% endif %}
-
-
-
-
-
+    <script>
+        function cancelSession(sessionId) {
+            if (confirm("Are you sure you want to cancel this session?")) {
+                $.ajax({
+                    url: "/cancel-session/",
+                    type: "POST",
+                    data: {
+                        session_id: sessionId,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            alert("Session cancelled successfully.");
+                            window.location.reload();
+                        } else {
+                            alert("Failed to cancel session: " + response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("An error occurred while cancelling session: " + error);
+                    }
+                });
+            }
+        }
+    </script>
 {% endblock %}
+
