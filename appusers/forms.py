@@ -9,9 +9,9 @@ from .models import Availability, Tutor, Student
 class AvailabilityForm(forms.ModelForm):
     class Meta:
         model = Availability
-        fields = ['tutor', 'date', 'timeblock', 'course', 'booked_by', 'status']
+        fields = ['tutor', 'date', 'timeblock', 'course', 'booked_by', 'status', 'semester']
         widgets = {
-            'date': DateInput(attrs={'type': 'date'}),
+            'date': DateInput(attrs={'type': 'date', 'onchange': 'setSemester()'}),
         }
         labels = {
             'booked_by': 'Student'

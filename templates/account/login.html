@@ -8,6 +8,11 @@
                 <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                 </div>
+                <div class="h6 text-bg-danger">
+                    {% if messages %}
+                        {{ messages.last }}
+                    {% endif %}
+                </div>
                 <form class="user" method="post">
                     {% csrf_token %}
                     <div class="form-group">
