@@ -1,13 +1,10 @@
 {% extends 'base_bootstrapped.html' %}
 
 {% block title %}Availability{% endblock %}
-
+{% block top_heading %}
+    <h1 class="h3 mb-0 text-gray-900">Enter Availability</h1>
+{% endblock %}
 {% block content %}
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Enter Availability</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-        </div>
-    </div>
 
     {% if user.is_authenticated %}
 
