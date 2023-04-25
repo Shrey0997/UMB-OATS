@@ -73,3 +73,10 @@ class Department (models.Model):
     def __str__(self):
         return self.d_name
 
+class SemesterDates(models.Model):
+    name=models.CharField(max_length=20,primary_key=True)
+    startDate=models.DateField(null=False)
+    endDate=models.DateField(null=False)
+    currentSemester=models.BooleanField(default=False)
+
+
