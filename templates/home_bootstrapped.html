@@ -88,27 +88,46 @@
                 <hr class="sidebar-divider">
                 <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
                     {% for session in tsessions %}
-                        
-                            <div class="col mb-1">
-                                <div class="card">
-                                    <div class="row g-0">
-                                        <div class="col-md-6">
-                                            <div class="card-body">
-                                                <h6 class="">Semester: {{ session.semester }}</h6>
-                                                <h6 class="">Date : {{session.date}}</h6>
-                                                <h6 class="">Tutor : {{ session.tutor }}</h6>
+
+                        <div class="col mb-1">
+                            <div class="card">
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <div class="h6">
+                                                <i class="fas fa-archive"></i>
+                                                : {{ session.semester }}
+                                            </div>
+                                            <div class="h6">
+                                                <i class="fas fa-calendar"></i>
+                                                : {{ session.date }}
+                                            </div>
+                                            <div class="h6">
+                                                <i class="fas fa-user-alt"></i>
+                                                : {{ session.tutor }}
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="card-body">
-                                                <p class="">Timing and location : {{ session.timeblock }}</p>
-                                                <p class="">Course : {{ session.course }}</p>
-                                                <a href="#" class="btn btn-primary">Cancel session</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <div class="h6">
+                                                <i class="fas fa-clock"></i>
+                                                : {{ session.timeblock }}
+                                            </div>
+                                            <div class="h6">
+                                                <i class="fas fa-book"></i>
+                                                : {{ session.course }}
+                                            </div>
+                                            <div class="h6">
+                                                <i class="fas fa-user-clock"></i>
+                                                : 1 hr
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <a href="#" class="btn btn-primary " onclick="cancelSession({{ session.id }})">Cancel session</a>
                             </div>
+                        </div>
                         {% empty %}
                         <p>No sessions today.</p>
                     {% endfor %}
@@ -120,25 +139,43 @@
                 <hr class="sidebar-divider">
                 <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
                     {% for session in upsessions %}
-
                             <div class="col mb-1">
                                 <div class="card">
                                     <div class="row g-0">
                                         <div class="col-md-6">
                                             <div class="card-body">
-                                                <h6 class="">Semester: {{ session.semester }}</h6>
-                                                <h6 class="">Date : {{session.date}}</h6>
-                                                <h6 class="">Tutor : {{ session.tutor }}</h6>
+                                                <div class="h6">
+                                                    <i class="fas fa-archive"></i>
+                                                    : {{ session.semester }}
+                                                </div>
+                                                <div class="h6">
+                                                    <i class="fas fa-calendar"></i>
+                                                    : {{ session.date }}
+                                                </div>
+                                                <div class="h6">
+                                                    <i class="fas fa-user-alt"></i>
+                                                    : {{ session.tutor }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="card-body">
-                                                <p class="">Timing and location : {{ session.timeblock }}</p>
-                                                <p class="">Course : {{ session.course }}</p>
-                                                <a href="#" class="btn btn-primary" onclick="cancelSession({{ session.id }})">Cancel session</a>
+                                                <div class="h6">
+                                                    <i class="fas fa-clock"></i>
+                                                    : {{ session.timeblock }}
+                                                </div>
+                                                <div class="h6">
+                                                    <i class="fas fa-book"></i>
+                                                    : {{ session.course }}
+                                                </div>
+                                                <div class="h6">
+                                                    <i class="fas fa-user-clock"></i>
+                                                    : 1 hr
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <a href="#" class="btn btn-primary " onclick="cancelSession({{ session.id }})">Cancel session</a>
                                 </div>
                             </div>                    
                         {% empty %}
@@ -156,27 +193,45 @@
             <hr class="sidebar-divider">
             <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto mr-5 ml-2 mt-3" >
                 {% for session in ttutsessions %}
-                    
-                        <div class="col mb-1">
-                            <div class="card">
-                                <div class="row g-0">
-                                    <div class="col-md-6">
-                                        <div class="card-body">
-                                            <h6 class="">Semester: {{ session.semester }}</h6>
-                                            <h6 class="">Date : {{session.date}}</h6>
-                                            <h6 class="">Student : {{ session.booked_by }}</h6>
+                    <div class="col mb-1">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <div class="h6">
+                                            <i class="fas fa-archive"></i>
+                                            : {{ session.semester }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-calendar"></i>
+                                            : {{ session.date }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-alt"></i>
+                                            : {{ session.booked_by }}
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="card-body">
-                                            <p class="">Timing and location : {{ session.timeblock }}</p>
-                                            <p class="">Course : {{ session.course }}</p>
-                                            <a href="#" class="btn btn-primary">Cancel session</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <div class="h6">
+                                            <i class="fas fa-clock"></i>
+                                            : {{ session.timeblock }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-book"></i>
+                                            : {{ session.course }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-clock"></i>
+                                            : 1 hr
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <a href="#" class="btn btn-primary " onclick="cancelSession({{ session.id }})">Cancel session</a>
                         </div>
+                    </div>
                     {% empty %}
                     <p>No sessions today.</p>
                 {% endfor %}
@@ -188,27 +243,45 @@
             <hr class="sidebar-divider">
             <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
                 {% for session in uptutsessions %}
-
-                        <div class="col mb-1">
-                            <div class="card">
-                                <div class="row g-0">
-                                    <div class="col-md-6">
-                                        <div class="card-body">
-                                            <h6 class="">Semester: {{ session.semester }}</h6>
-                                            <h6 class="">Date : {{session.date}}</h6>
-                                            <h6 class="">Student : {{ session.booked_by }}</h6>
+                    <div class="col mb-2">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <div class="h6">
+                                            <i class="fas fa-archive"></i>
+                                            : {{ session.semester }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-calendar"></i>
+                                            : {{ session.date }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-alt"></i>
+                                            : {{ session.booked_by }}
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="card-body">
-                                            <p class="">Timing and location : {{ session.timeblock }}</p>
-                                            <p class="">Course : {{ session.course }}</p>
-                                            <a class="btn btn-primary" onclick="cancelSession({{ session.id }})" >Cancel session</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <div class="h6">
+                                            <i class="fas fa-clock"></i>
+                                            : {{ session.timeblock }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-book"></i>
+                                            : {{ session.course }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-clock"></i>
+                                            : 1 hr
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>                    
+                            <a href="#" class="btn btn-primary " onclick="cancelSession({{ session.id }})">Cancel session</a>
+                        </div>
+                    </div>
                     {% empty %}
                     <p>No upcoming tutoring sessions found.</p>
                 {% endfor %}

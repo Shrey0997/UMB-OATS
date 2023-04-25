@@ -280,7 +280,7 @@ def profile_view(request):
 
     return render(request, 'profile_bootstrapped.html', {'form': form})
 
-
+@login_required
 def assign_roles(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -298,10 +298,10 @@ def assign_roles(request):
         users = User.objects.all()
         roles = Group.objects.all()
         return render(request, 'assign_roles.html', {'users': users, 'roles': roles})
-    
+@login_required
 def enter_dates(request):
     return render(request, 'enter_dates.html')
-
+@login_required
 def add_semester(request):
     if request.method == 'POST':
         semname=request.POST['semname']
@@ -316,7 +316,7 @@ def add_semester(request):
     else:
         messages.error(request, 'Enter a valid dates.')
         return redirect('enter_dates')
-
+@login_required
 def cancel_session(request):
     if request.method == 'POST':
         session_id = request.POST.get('session_id')
