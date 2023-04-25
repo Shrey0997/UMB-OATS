@@ -2,7 +2,7 @@ from django.contrib.admin.helpers import AdminForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.datetime_safe import date
 from UMassSchedulingApplication.settings import DEFAULT_FROM_EMAIL
-from .models import Availability, Tutor, Student, Course
+from .models import Availability, SemesterDates, Tutor, Student, Course
 from django.contrib.auth import login, logout, get_user_model, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -299,3 +299,19 @@ def assign_roles(request):
     
 def enter_dates(request):
     return render(request, 'enter_dates.html')
+
+def add_semester(request):
+    if request.method == 'POST':
+        semname=request.POST['semname']
+        startdate=request.POST['start_date']
+        enddate=request.POST['end_date']
+    
+    if startdate < enddate:
+        semester = SemesterDates(name=semname, startDate=startdate, endDate=enddate)
+        semester.save()
+        messages.success(request, 'Semester added successfully.')
+        return render(request, 'enter_dates.html')
+    else:
+        messages.error(request, 'Enter a valid dates.')
+        return redirect('enter_dates')
+    
