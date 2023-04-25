@@ -147,25 +147,29 @@ def activate(request, uidb64, token):
 
 @login_required
 def home_view(request):
-    current_user=request.user
+    current_user = request.user
     today = date.today()
     slots = Availability.objects.all().order_by('date')
     try:
         student = current_user.student
-        todaysessions = Availability.objects.filter(booked_by=student, date=today).order_by('timeblock')
-        upcsessions = Availability.objects.filter(booked_by=student, date__gt=today).order_by('date')
+        s_today_sessions = Availability.objects.filter(booked_by=student, date=today).order_by('timeblock')
+        s_upcoming_sessions = Availability.objects.filter(booked_by=student, date__gt=today).order_by('date')
     except Student.DoesNotExist:
-        todaysessions = []
-        upcsessions = []
+        s_today_sessions = []
+        s_upcoming_sessions = []
     
     try:
         tutor = current_user.tutor
-        todaytutsessions = Availability.objects.filter(tutor=tutor, date=today).order_by('timeblock')
-        upctutsessions = Availability.objects.filter(tutor=tutor, date__gt=today).order_by('date')
+        t_today_sessions = Availability.objects.filter(tutor=tutor, date=today).order_by('timeblock')
+        t_upcoming_sessions = Availability.objects.filter(tutor=tutor, date__gt=today).order_by('date')
     except Tutor.DoesNotExist:
-        todaytutsessions = []
-        upctutsessions = []
-    return render(request, 'home_bootstrapped.html', {'slots': slots,'today':today, 'tsessions':todaysessions,'upsessions':upcsessions, 'ttutsessions':todaytutsessions,'uptutsessions':upctutsessions})
+        t_today_sessions = []
+        t_upcoming_sessions = []
+
+    return render(request, 'home_bootstrapped.html',
+                  {'slots': slots, 'today':today,
+                   'tsessions': s_today_sessions, 'upsessions': s_upcoming_sessions,
+                   'ttutsessions': t_today_sessions, 'uptutsessions': t_upcoming_sessions})
 
 
 @login_required
@@ -173,12 +177,12 @@ def available_slots(request):
     courses = Course.objects.all()
     tutors = Tutor.objects.all()
     slots = Availability.objects.all().order_by('date')
-    stud = request.user.student
-    no_show=stud.no_shows
-    ns=True
-    if no_show >2:
-        ns=False
-    return render(request, 'available_slot.html', {'slots': slots,'courses':courses,'tutors':tutors,'ns':ns})
+    student = request.user.student
+    no_show = student.no_shows
+    ns = True
+    if no_show > 2:
+        ns = False
+    return render(request, 'available_slot.html', {'slots': slots, 'courses': courses, 'tutors': tutors, 'ns': ns})
 
 
 @login_required
