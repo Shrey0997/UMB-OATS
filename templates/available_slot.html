@@ -5,7 +5,7 @@
 {% block content %}
 {% if ns %}
     <form method="GET" id="filter-form">
-        <label for="course-select">Course:</label>
+        <label for="course-select">Course: </label>
         <select name="course" id="course-select">
             <option value="">-- Select Course --</option>
             {% for course in user.student.courses.all %}
