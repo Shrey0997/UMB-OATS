@@ -6,7 +6,8 @@ from appusers.views import home_view, signup_view, login_view, logout_view, avai
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_view, name='home'),
+    path('', login_view, name='login'),
+    path('home/', home_view, name='home'),
     path('signup/', signup_view, name='signup'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
