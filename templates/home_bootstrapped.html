@@ -1,100 +1,209 @@
+
 {% extends 'base_bootstrapped.html' %}
 
 {% block title %}Home{% endblock %}
-
+{% block top_heading %}
+    <h1 class="h3 mb-0 text-gray-900">Dashboard</h1>
+{% endblock %}
 {% block content %}
-        <div class="d-flex justify-content-between sticky-top flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Home</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
+
+    <!-- Content Row -->
+    <div class="row" style="margin-left: 1%;margin-top: 3%;">
+
+        <!-- Session Completed Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Session Completed</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        {% if user.is_authenticated %}
-            {% if request.user.student %}
-                <div class="sticky-top">
-                <h2> Today's student sessions: </h2>
-
-                {% for session in tsessions %}
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Tutor : {{session.tutor}}</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
-                        <p class="card-text">Timing and location : {{ session.timeblock }}</p>
-                        <p class="card-title">Semester : {{ session.semester }}</p>
-                        <p class="card-text">Course : {{ session.course }}</p>
-                        {% comment %} <a href="#" class="card-link">Cancel session</a> {% endcomment %}
-                    </div>
-                </div>
-                {% empty %}
-                    <p>No sessions found for Today.</p>
-                {% endfor %}
-                </div>
-                <div class="sticky-top">
-                <h2> Upcoming student sessions: </h2>
-
-                {% for session in upsessions %}
-                    
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Tutor : {{session.tutor}}</h5>
-                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
-                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
-                            <p class="card-title">Semester : {{ session.semester }}</p>
-                            <p class="card-text">Course : {{ session.course }}</p>
-                        {% comment %} <a href="#" class="card-link">Cancel session</a> {% endcomment %}
+        <!-- Session Upcoming Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Session Upcoming</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                         </div>
                     </div>
-                    
-                {% empty %}
-                    <p>No upcoming sessions found.</p>
-                {% endfor %}
                 </div>
-            {% endif %}
+            </div>
+        </div>
 
-            {% if request.user.tutor %}
-                <h2> Today's tutoring sessions: </h2>
 
-                {% for session in ttutsessions %}
-
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h6 class="card-title">Semester :{{ session.semester }}</h6>
-                            <h5 class="card-title">{{session.booked_by}}</h5>
-                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
-                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
-                            <p class="card-text">Course : {{ session.course }}</p>
-                            {% comment %} <a href="#" class="card-link">Cancel session</a> {% endcomment %}
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Pending Requests</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-comments fa-2x text-gray-300"></i>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    {% empty %}
-                        <p>No Tutoring sessions found for Today.</p>
-                {% endfor %}
-
-                <h2> Upcoming tutoring sessions: </h2>
-                {% for session in uptutsessions %}
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h6 class="card-title">Semester :{{ session.semester }}</h6>
-                            <h5 class="card-title">{{ session.booked_by }}- {{session.date}}</h5>
-                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
-                            <p class="card-text">Course : {{ session.course }}</p>
-                            {% comment %} <a href="#" class="btn btn-primary">Cancel session</a> {% endcomment %}
-                        </div>
-                    </div>
-                {% empty %}
-                    <p>No upcoming tutoring sessions found.</p>
-                {% endfor %}
-            {% endif %}
-            <div class="mb-3 fw-normal">
-                {% for msg in messages%}
-                    <p>{{msg}}</p>
-                {% endfor %}
+    {% if user.is_authenticated %}
+        {% if request.user.student %}
+            <div class="container-fluid card border-left-primary shadow py-2" style="margin-left: 1%; margin-right: 2%; margin-top: 3%;">
+                <h2 class="m-0 font-weight-bold text-primary"> Today's sessions: </h2>
+                <hr class="sidebar-divider">
+                <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
+                    {% for session in tsessions %}
+                        
+                            <div class="col mb-1">
+                                <div class="card">
+                                    <div class="row g-0">
+                                        <div class="col-md-6">
+                                            <div class="card-body">
+                                                <h6 class="">Semester: {{ session.semester }}</h6>
+                                                <h6 class="">Date : {{session.date}}</h6>
+                                                <h6 class="">Tutor : {{ session.tutor }}</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-body">
+                                                <p class="">Timing and location : {{ session.timeblock }}</p>
+                                                <p class="">Course : {{ session.course }}</p>
+                                                <a href="#" class="btn btn-primary">Cancel session</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                        <p>No sessions today.</p>
+                    {% endfor %}
+                </div>
             </div>
 
-            {% if user.is_superuser %}
-                <a href="{% url 'assign_roles' %}"><button class = "btn btn-primary" > Assign Roles </button></a>
-            {% endif %}
+            <div class="container-fluid card border-left-primary shadow py-2" style="margin-left: 1%; margin-right: 2%;margin-top: 3%;">
+                <h2 class="m-0 font-weight-bold text-primary"> Upcoming sessions: </h2>
+                <hr class="sidebar-divider">
+                <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
+                    {% for session in upsessions %}
+
+                            <div class="col mb-1">
+                                <div class="card">
+                                    <div class="row g-0">
+                                        <div class="col-md-6">
+                                            <div class="card-body">
+                                                <h6 class="">Semester: {{ session.semester }}</h6>
+                                                <h6 class="">Date : {{session.date}}</h6>
+                                                <h6 class="">Tutor : {{ session.tutor }}</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-body">
+                                                <p class="">Timing and location : {{ session.timeblock }}</p>
+                                                <p class="">Course : {{ session.course }}</p>
+                                                <a href="#" class="btn btn-primary">Cancel session</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                    
+                        {% empty %}
+                        <p>No upcoming sessions found.</p>
+                    {% endfor %}
+                </div>
+            </div>
         {% endif %}
+
+        {% if request.user.tutor %}
+
+
+        <div class="container-fluid card border-left-primary shadow py-2" style="margin-left: 1%; margin-right: 2%; margin-top: 3%;">
+            <h2 class="m-0 font-weight-bold text-primary"> Today's tutoring sessions: </h2>
+            <hr class="sidebar-divider">
+            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
+                {% for session in ttutsessions %}
+                    
+                        <div class="col mb-1">
+                            <div class="card">
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <h6 class="">Semester: {{ session.semester }}</h6>
+                                            <h6 class="">Date : {{session.date}}</h6>
+                                            <h6 class="">Student : {{ session.booked_by }}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <p class="">Timing and location : {{ session.timeblock }}</p>
+                                            <p class="">Course : {{ session.course }}</p>
+                                            <a href="#" class="btn btn-primary">Cancel session</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                    <p>No sessions today.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container-fluid card border-left-primary shadow py-2" style="margin-left: 1%; margin-right: 2%;margin-top: 3%;">
+            <h2 class="m-0 font-weight-bold text-primary"> Upcoming tutoring sessions: </h2>
+            <hr class="sidebar-divider">
+            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
+                {% for session in uptutsessions %}
+
+                        <div class="col mb-1">
+                            <div class="card">
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <h6 class="">Semester: {{ session.semester }}</h6>
+                                            <h6 class="">Date : {{session.date}}</h6>
+                                            <h6 class="">Student : {{ session.booked_by }}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <p class="">Timing and location : {{ session.timeblock }}</p>
+                                            <p class="">Course : {{ session.course }}</p>
+                                            <a href="#" class="btn btn-primary">Cancel session</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    
+                    {% empty %}
+                    <p>No upcoming tutoring sessions found.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+
+
+
+
 {% endblock %}
