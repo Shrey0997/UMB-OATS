@@ -155,7 +155,7 @@ def home_view(request):
     except Student.DoesNotExist:
         s_today_sessions = []
         s_upcoming_sessions = []
-    
+
     try:
         tutor = current_user.tutor
         t_today_sessions = Availability.objects.filter(tutor=tutor, date=today).order_by('timeblock')
@@ -175,8 +175,7 @@ def available_slots(request):
     courses = Course.objects.all()
     tutors = Tutor.objects.all()
     slots = Availability.objects.all().order_by('date')
-    student = request.user.student
-    no_show = student.no_shows
+    no_show = request.user.student.no_shows
     ns = True
     if no_show > 2:
         ns = False
@@ -331,3 +330,27 @@ def cancel_session(request):
             return JsonResponse({'success': False, 'error': 'Session not found or already cancelled.'})
 
     return redirect('home')
+
+@login_required
+def session_history(request):
+    current_user = request.user
+    today = date.today()
+    slots = Availability.objects.all().order_by('date')
+    try:
+        student = current_user.student
+        student_session_history = Availability.objects.filter(booked_by=student, date__lt=today).order_by('date')
+    except Student.DoesNotExist:
+        student_session_history = []
+
+    try:
+        tutor = current_user.tutor
+        tutor_session_history = Availability.objects.filter(tutor=tutor, date__lt=today).order_by('date')
+    except Tutor.DoesNotExist:
+        tutor_session_history = []
+
+    return render(request, 'session_history.html',
+                  {'slots': slots, 'today': today,
+                   'student_session_history': student_session_history,
+                   'tutor_session_history': tutor_session_history,
+                  })
+

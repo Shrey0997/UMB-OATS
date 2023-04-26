@@ -4,9 +4,10 @@
 {% endblock %}
 {% block content %}
 {% if ns %}
+    <div class="">
     <form method="GET" id="filter-form">
-        <label for="course-select">Course:</label>
-        <select name="course" id="course-select">
+
+        <select  name="course" id="course-select">
             <option value="">-- Select Course --</option>
             {% for course in user.student.courses.all %}
                 <option value="{{ course }}">{{ course.c_name }}</option>
@@ -25,7 +26,9 @@
 
         <input type="submit"  class="btn btn-primary" value="Filter">
     </form>
-
+    <hr>
+    </div>
+    <div class="card shadow h-50 py-2">
     <div class="row">
         {% for session in slots %}
             {% if session.status == 'A' %}
@@ -47,6 +50,7 @@
                 {% endif %}
             {% endif %}
         {% endfor %}
+    </div>
     </div>
 {% else %}
     <p>Please Contact Admin</p>

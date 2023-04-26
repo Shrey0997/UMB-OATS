@@ -22,10 +22,10 @@
             <button type="submit">Add dates for the semester</button>
           </form>
 
-        <div class="mb-3 fw-normal">
-            {% for msg in messages%}
-                <p>{{msg}}</p>
-            {% endfor %}
-        </div>
+    <div class="h6 text-bg-danger">
+        {% if messages %}
+            {{ messages.last }}
+        {% endif %}
+    </div>
 
 {% endblock %}
