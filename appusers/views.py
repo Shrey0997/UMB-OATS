@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.datetime_safe import date
 from UMassSchedulingApplication.settings import DEFAULT_FROM_EMAIL
 from .models import Availability, SemesterDates, Tutor, Student, Course
-from django.contrib.auth import login, logout, get_user_model, authenticate
+from django.contrib.auth import login, logout, get_user_model, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import AvailabilityForm, SignupForm, StudentForm, TutorForm
@@ -14,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User, Group
-from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm
 
 User = get_user_model()
 
@@ -264,21 +264,20 @@ def profile_view(request):
     if request.user.is_superuser:
         form_class = AdminForm
         if request.method == 'POST':
-            form = form_class(request.POST, instance=user)
-            if form.is_valid():
-                form.save()
-        else:
-            form = form_class(instance=user)
-    else:
-        if request.method == 'POST':
             form = form_class(request.POST)
             if form.is_valid():
                 form.save()
         else:
-            form = form_class()
+            form = form_class()  # remove the instance argument
+    else:
+        if request.method == 'POST':
+            form = form_class(request.POST, instance=profile)
+            if form.is_valid():
+                form.save()
+        else:
+            form = form_class(instance=profile)
 
     return render(request, 'profile.html', {'form': form})
-
 
 
 @login_required
@@ -365,3 +364,18 @@ def session_history(request):
 
 def custom_page_not_found(request, exception):
     return render(request, '404.html', status=404)
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'account/change_password.html', {'form': form})

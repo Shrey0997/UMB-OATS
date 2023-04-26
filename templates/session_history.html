@@ -3,6 +3,34 @@
     <h1 class="h3 mb-0 text-gray-900">Session History</h1>
 {% endblock %}
 {% block content %}
+
+    <form method="GET" id="filter-form">
+        <select name="semester" id="semester-select">
+            <option value="">-- Select Semester --</option>
+            {% for semester in semesters %}
+                <option value="{{ semester }}">{{ semester }}</option>
+            {% endfor %}
+        </select>
+        <select  name="course" id="course-select">
+            <option value="">-- Select Course --</option>
+            {% for course in user.student.courses.all %}
+                <option value="{{ course }}">{{ course.c_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="tutor-select">Tutor:</label>
+        <select name="tutor" id="tutor-select">
+            <option value="">-- Select Tutor --</option>
+            {% for tutor in tutors %}
+                {% if not request.GET.course or course.id in tutor.courses.all %}
+                    <option value="{{ tutor }}">{{ tutor.user.username }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+        <input type="submit"  class="btn btn-primary" value="Filter">
+    </form>
+    <hr>
     {% if user.is_authenticated %}
         {% if request.user.student %}
             <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
