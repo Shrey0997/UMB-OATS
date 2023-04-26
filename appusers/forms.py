@@ -60,38 +60,15 @@ class SignupForm(UserCreationForm):
             user.save()
         return user
 
-class TutorForm(forms.ModelForm):
+class BaseForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
-
-    class Meta:
-        model = Student
-        fields = ['courses']
-        widgets = {
-            'courses': forms.CheckboxSelectMultiple()
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['first_name'].initial = self.instance.user.first_name
-        self.fields['last_name'].initial = self.instance.user.last_name
-
-    def save(self, commit=True):
-        user = self.instance.user
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        if commit:
-            user.save()
-        return super().save(commit=commit)
-
-
-class StudentForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=30, required=True)
+    profile_picture = forms.URLField(required=False)
 
     class Meta:
         model = Student
         fields = ['ums_id', 'courses']
+
         widgets = {
             'courses': forms.CheckboxSelectMultiple()
         }
@@ -108,6 +85,13 @@ class StudentForm(forms.ModelForm):
         if commit:
             user.save()
         return super().save(commit=commit)
+
+class TutorForm(BaseForm):
+    class Meta(BaseForm.Meta):
+        fields = ['courses']
+
+class StudentForm(BaseForm):
+    pass
 
 class AdminForm(UserChangeForm):
     class Meta:
@@ -116,14 +100,14 @@ class AdminForm(UserChangeForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance:
-            self.initial['first_name'] = self.instance.first_name
-            self.initial['last_name'] = self.instance.last_name
-            self.initial['username'] = self.instance.username
-            self.initial['email'] = self.instance.email
+        self.initial['first_name'] = self.first_name
+        self.initial['last_name'] = self.last_name
+        self.initial['username'] = self.username
+        self.initial['email'] = self.email
 
     def save(self, commit=True):
         user = super().save(commit=False)
         if commit:
             user.save()
         return user
+

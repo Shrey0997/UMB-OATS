@@ -164,7 +164,7 @@ def home_view(request):
         t_today_sessions = []
         t_upcoming_sessions = []
 
-    return render(request, 'home_bootstrapped.html',
+    return render(request, 'home.html',
                   {'slots': slots, 'today':today,
                    'tsessions': s_today_sessions, 'upsessions': s_upcoming_sessions,
                    'ttutsessions': t_today_sessions, 'uptutsessions': t_upcoming_sessions})
@@ -248,7 +248,7 @@ def create_slot(request):
             initial_data = {'tutor': request.user.tutor}
             form = AvailabilityForm(initial=initial_data, user=request.user)
 
-    return render(request, 'create_slot_bootstrapped.html', {'form': form})
+    return render(request, 'create_slots.html', {'form': form})
 
 
 @login_required
@@ -264,20 +264,22 @@ def profile_view(request):
     if request.user.is_superuser:
         form_class = AdminForm
         if request.method == 'POST':
+            form = form_class(request.POST, instance=user)
+            if form.is_valid():
+                form.save()
+        else:
+            form = form_class(instance=user)
+    else:
+        if request.method == 'POST':
             form = form_class(request.POST)
             if form.is_valid():
                 form.save()
         else:
             form = form_class()
-    else:
-        if request.method == 'POST':
-            form = form_class(request.POST, instance=profile)
-            if form.is_valid():
-                form.save()
-        else:
-            form = form_class(instance=profile)
 
-    return render(request, 'profile_bootstrapped.html', {'form': form})
+    return render(request, 'profile.html', {'form': form})
+
+
 
 @login_required
 def assign_roles(request):
@@ -315,6 +317,7 @@ def add_semester(request):
     else:
         messages.error(request, 'Enter a valid dates.')
         return redirect('enter_dates')
+
 @login_required
 def cancel_session(request):
     if request.method == 'POST':
@@ -322,10 +325,16 @@ def cancel_session(request):
         session = Availability.objects.filter(pk=session_id).first()
 
         if session and session.status == 'B':
-            session.status = 'A'
-            session.booked_by = None
-            session.save()
-            return JsonResponse({'success': True})
+            if hasattr(request.user, 'student'):
+                session.status = 'A'
+                session.booked_by = None
+                session.save()
+                return JsonResponse({'success': True})
+            elif hasattr(request.user, 'tutor'):
+                session.delete()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'error': 'User is not a student or tutor.'})
         else:
             return JsonResponse({'success': False, 'error': 'Session not found or already cancelled.'})
 
@@ -354,3 +363,5 @@ def session_history(request):
                    'tutor_session_history': tutor_session_history,
                   })
 
+def custom_page_not_found(request, exception):
+    return render(request, '404.html', status=404)
