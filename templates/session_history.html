@@ -1,0 +1,108 @@
+{% extends "base_bootstrapped.html" %}
+{% block top_heading %}
+    <h1 class="h3 mb-0 text-gray-900">Session History</h1>
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if request.user.student %}
+            <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
+            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
+                {% for session in student_session_history %}
+
+                    <div class="col mb-1">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <div class="h6">
+                                            <i class="fas fa-archive"></i>
+                                            : {{ session.semester }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-calendar"></i>
+                                            : {{ session.date }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-alt"></i>
+                                            : {{ session.tutor }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <div class="h6">
+                                            <i class="fas fa-clock"></i>
+                                            : {{ session.timeblock }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-book"></i>
+                                            : {{ session.course }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-clock"></i>
+                                            : 1 hr
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No sessions today.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if request.user.tutor %}
+            <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
+            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto mr-5 ml-2 mt-3" >
+                {% for session in tutor_session_history %}
+                    <div class="col mb-1">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <div class="h6">
+                                            <i class="fas fa-archive"></i>
+                                            : {{ session.semester }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-calendar"></i>
+                                            : {{ session.date }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-alt"></i>
+                                            : {{ session.booked_by }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <div class="h6">
+                                            <i class="fas fa-clock"></i>
+                                            : {{ session.timeblock }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-book"></i>
+                                            : {{ session.course }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-clock"></i>
+                                            : 1 hr
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                    {% empty %}
+                    <p>No sessions today.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+
+{% endblock %}
