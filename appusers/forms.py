@@ -70,13 +70,21 @@ class BaseForm(forms.ModelForm):
         fields = ['ums_id', 'courses']
 
         widgets = {
-            'courses': forms.CheckboxSelectMultiple()
+            'courses': forms.CheckboxSelectMultiple(),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'ums_id': forms.TextInput(attrs={'class': 'form-control'}),
+            'courses': forms.SelectMultiple(attrs={'class': 'form-control'}),
         }
+
+        
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].initial = self.instance.user.first_name
         self.fields['last_name'].initial = self.instance.user.last_name
+        self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
 
     def save(self, commit=True):
         user = self.instance.user
