@@ -7,53 +7,74 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row justify-content-center align-items-center py-4">
-        <div class="col-md-4 text-center">
-            <img src="{{ user.profile.picture.url }}" class="rounded-circle" alt="Profile Picture" width="150" height="150">
-            <h3 class="mt-2">{{ user.username }}</h3>
-        </div>
-        <div class="col-md-8">
-            {% if user.is_authenticated %}
+
+<div class="card ml-3">
+    <div class="card-body custom-card">
+
+        <div class="row justify-content-center align-items-center py-4">
+            <div class="col-md-4 text-center">
+                <img src="{{ user.profile.picture.url }}" class="rounded-circle" alt="Profile Picture" width="150" height="150">
+                <h3 class="mt-2">{{ user.username }}</h3>
+            </div>
+            <div class="col-md-8">
+                {% if user.is_authenticated %}
                 <article>
                     <form method="post">
                         {% csrf_token %}
                         <div class="col-sm-10 col-md-6">
-                            <label for="{{ form.first_name.id_for_label }} "><i class="fas fa-user"></i> First name:</label>
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label-custom"><i class="fas fa-user"></i> First name:</label>
                             {{ form.first_name }}
                         </div>
                         <br>
                         <div class="col-sm-10 col-md-6">
-                            <label for="{{ form.last_name.id_for_label }}"><i class="fas fa-user"></i> Last name:</label>
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label-custom"><i class="fas fa-user"></i> Last name:</label>
                             {{ form.last_name }}
                         </div>
                         <br>
                         {% if user.student %}
                         <div class="col-sm-10 col-md-6">
-                            <label for="{{ form.ums_id.id_for_label }}"><i class="fas fa-id-card"></i> UMB ID:</label>
+                            <label for="{{ form.ums_id.id_for_label }}" class="form-label-custom"><i class="fas fa-id-card"></i> UMB ID:</label>
                             {{ form.ums_id }}
                         </div>
                         <br>
                         <div class="col-sm-10 col-md-6">
-                            <label for="{{ form.courses.id_for_label }}"><i class="fas fa-book"></i> Student Courses:</label>
+                            <label for="{{ form.courses.id_for_label }}" class="form-label-custom"><i class="fas fa-book"></i> Student Courses:</label>
                             {{ form.courses }}
                         </div>
-                
+
                         {% endif %}
+                        <br>
 
                         <div class="mt-3">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
                         </div>
-                        
+
                     </form>
                 </article>
-            {% endif %}
-            <div class="h6 text-bg-danger">
-                {% if messages %}
-                    {{ messages.last }}
                 {% endif %}
+                <div class="h6 text-bg-danger">
+                    {% if messages %}
+                    {{ messages.last }}
+                    {% endif %}
+                </div>
             </div>
+
         </div>
-        
     </div>
-            
+</div>
+
+<style>
+    .form-label-custom {
+        color: grey!important;
+    }
+</style>
+<style>
+    .custom-card {
+    max-width: 1200px;
+    padding: 5px;
+    margin-left: 20px;
+}
+
+</style>
+
 {% endblock %}
