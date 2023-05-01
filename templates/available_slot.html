@@ -6,7 +6,8 @@
 {% if ns %}
     <div class="">
     <form method="GET" id="filter-form">
-
+ 
+        
         <select  name="course" id="course-select">
             <option value="">-- Select Course --</option>
             {% for course in user.student.courses.all %}
