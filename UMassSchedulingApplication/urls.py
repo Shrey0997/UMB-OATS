@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from appusers.views import home_view, signup_view, login_view, logout_view, available_slots, book_slots, create_slot, \
     activate, activation_sent, profile_view, assign_roles, forgot_password, passwordResetconfirm, enter_dates, \
     add_semester, cancel_session, session_history, custom_page_not_found, change_password
@@ -26,4 +26,5 @@ urlpatterns = [
     path('cancel-session/', cancel_session, name='cancel_session'),
     path('session-hsitory/', session_history, name='session_history'),
     path('change-password/', change_password, name='change_password'),
+
 ]

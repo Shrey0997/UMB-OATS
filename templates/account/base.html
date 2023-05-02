@@ -34,9 +34,17 @@
 
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
-                    {% block content %}{% endblock %}
+                    <div class="row">
+                        <div class="col-lg-5 d-none d-lg-block ">
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <img class="small" src="{% static 'images/favicons/UMB-logo.png' %}" alt="your-image" />
+                                <p class="text-center font-weight-bold text-primary">Center for Academic Excellence</p>
+                                <p class="text-center font-weight-bold text-primary">Online Application for Tutor Scheduling (OATS)</p>
+                            </div>
+                        </div>
+                            {% block content %}{% endblock %}
                     <!-- Content Block for Login and Register Page -->
-
+                    </div>
                 </div>
             </div>
 
@@ -45,7 +53,15 @@
     </div>
 
 </div>
+<style>
+    .small {
+        width: 300px; /* adjust the size to your preference */
+    }
 
+    .d-flex {
+        height: 100%; /* make the flex container full height */
+    }
+</style>
 <!-- Bootstrap core JavaScript-->
 <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
