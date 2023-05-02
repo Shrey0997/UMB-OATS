@@ -10,8 +10,8 @@
             <p class="card-text"><i class="fas fa-chalkboard-teacher"></i> <strong>Tutor:</strong> {{ slot.tutor }}</p>
             <p class="card-text"><i class="fas fa-book"></i> <strong>Course:</strong> {{ slot.course }}</p>
             <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Date:</strong> {{ slot.date }}</p>
-            <p class="card-text"><i class="fas fa-clock"></i> <strong>Time Block:</strong> {{ slot.timeblock }}</p>
-            <p class="card-text"><i class="fas fa-check-circle"></i> <strong>Status:</strong> {{ slot.status }}</p>
+            <p class="card-text"><i class="fas fa-clock"></i> <strong>Time Block:</strong> {{ slot.get_timeblock_display }}</p>
+            <p class="card-text"><i class="fas fa-check-circle"></i> <strong>Status:</strong> {{ slot.get_status_display }}</p>
             {% if user.is_authenticated %}
                 {% if user.is_superuser %}
                     <form method="POST" class="mt-3">

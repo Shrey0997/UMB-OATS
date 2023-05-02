@@ -1,15 +1,21 @@
+import datetime
 from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
+
 TIMEBLOCK_CHOICES = (
-    ("A", "8:00-8:20"),
-    ("B", "8:20-8:40"),
-    ("C", "8:40-9:00"),
-    ("D", "9:00-9:20"),
-    ("E", "9:20-9:40"),
-    ("F", "9:40-10:00"),
+    ("A", "8:00 AM - 9:00 AM"),
+    ("B", "9:00 AM - 10:00 AM"),
+    ("C", "10:00 AM - 11:00 AM"),
+    ("D", "11:00 AM - 12:00 PM"),
+    ("E", "12:00 PM - 1:00 PM"),
+    ("F", "1:00 PM - 2:00 PM"),
+    ("G", "2:00 PM - 3:00 PM"),
+    ("H", "3:00 PM - 4:00 PM"),
+    ("I", "4:00 PM - 5:00 PM"),
 )
+
 STATUS_CHOICES = [
     ('A', 'Available'),
     ('B', 'Booked'),
