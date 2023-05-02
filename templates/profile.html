@@ -13,7 +13,11 @@
 
         <div class="row justify-content-center align-items-center py-4">
             <div class="col-md-4 text-center">
-                <img src="{{ user.profile.picture.url }}" class="rounded-circle" alt="Profile Picture" width="150" height="150">
+                <div class="profile-picture">
+                    <img id="image_display" src="{{ request.user.student.profile_picture }}" class="rounded-circle" alt="Profile Picture" width="150" height="150">
+                    <label for="id_picture"><i class="fas fa-pencil-alt"></i></label>
+                    <input type="file" id="id_picture" name="picture" style="display:none;" onchange="previewFile()">
+                </div>
                 <h3 class="mt-2">{{ user.username }}</h3>
             </div>
             <div class="col-md-8">
@@ -63,12 +67,26 @@
     </div>
 </div>
 
+<script>
+    function previewFile() {
+        const preview = document.getElementById('image_display');
+        const file = document.querySelector('input[type=file]').files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
 <style>
     .form-label-custom {
         color: grey!important;
     }
-</style>
-<style>
     .custom-card {
     max-width: 1200px;
     padding: 5px;
