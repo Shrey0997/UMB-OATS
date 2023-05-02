@@ -172,13 +172,19 @@ def home_view(request):
 
 @login_required
 def available_slots(request):
+    today = date.today()
     courses = Course.objects.all()
     tutors = Tutor.objects.all()
-    slots = Availability.objects.all().order_by('date')
-    no_show = request.user.student.no_shows
-    ns = True
-    if no_show > 2:
-        ns = False
+
+    if request.user.student:
+        student = request.user.student
+        no_show = student.no_shows
+        ns = True
+        slots = Availability.objects.filter(course__in=student.courses.all(), date__gt=today).order_by('date')
+        if no_show > 2:
+            ns = False
+    else:
+        slots = Availability.objects.all().filter(date__gt=today).order_by('date')
     return render(request, 'available_slot.html', {'slots': slots, 'courses': courses, 'tutors': tutors, 'ns': ns})
 
 
@@ -379,3 +385,17 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'account/change_password.html', {'form': form})
+
+
+@login_required
+def update_profile_picture(request):
+    student = request.user.student
+    if request.method == 'POST':
+        form = ProfilePictureForm(request.POST, request.FILES)
+        if form.is_valid():
+            student.profile_picture = form.cleaned_data['profile_picture']
+            student.save()
+            return redirect('profile')
+    else:
+        form = ProfilePictureForm()
+    return render(request, 'update_profile_picture.html', {'form': form, 'student': student})

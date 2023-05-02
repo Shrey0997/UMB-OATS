@@ -84,7 +84,7 @@
     {% if user.is_authenticated %}
         {% if request.user.student %}
             <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
-                <h2 class="m-0 font-weight-bold text-primary"> Today's sessions: </h2>
+                <h5 class="m-0 font-weight-bold text-primary text-uppercase"> Today's sessions: </h5>
                 <hr class="sidebar-divider">
                 <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
                     {% for session in tsessions %}
@@ -134,7 +134,7 @@
             </div>
 
             <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3" >
-                <h2 class="m-0 font-weight-bold text-primary"> Upcoming sessions: </h2>
+                <h5 class="m-0 font-weight-bold text-primary text-uppercase"> Upcoming sessions: </h5>
                 <hr class="sidebar-divider">
                 <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
                     {% for session in upsessions %}
@@ -188,7 +188,7 @@
 
 
         <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
-            <h2 class="m-0 font-weight-bold text-primary"> Today's tutoring sessions: </h2>
+            <h5 class="m-0 font-weight-bold text-primary text-uppercase"> Today's Tutoring sessions: </h5>
             <hr class="sidebar-divider">
             <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto mr-5 ml-2 mt-3" >
                 {% for session in ttutsessions %}
@@ -237,7 +237,7 @@
         </div>
 
         <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
-            <h2 class="m-0 font-weight-bold text-primary"> Upcoming tutoring sessions: </h2>
+            <h5 class="m-0 font-weight-bold text-primary text-uppercase"> Upcoming tutoring sessions: </h5>
             <hr class="sidebar-divider">
             <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
                 {% for session in uptutsessions %}

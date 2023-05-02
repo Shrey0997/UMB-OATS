@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.core.files.base import ContentFile
 from django.forms import DateInput
 from django.contrib.auth.models import User
 from .models import Availability, Tutor, Student
@@ -63,7 +64,7 @@ class SignupForm(UserCreationForm):
 class BaseForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
-    profile_picture = forms.URLField(required=False)
+    profile_picture = forms.FileField(required=False)
 
     class Meta:
         model = Student
@@ -90,6 +91,14 @@ class BaseForm(forms.ModelForm):
         user = self.instance.user
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
+        profile_picture = self.cleaned_data.get('profile_picture')
+        if profile_picture:
+            # Use the ContentFile object to create a new file object from the uploaded image data
+            file_data = ContentFile(profile_picture.read())
+            filename = profile_picture.name
+            # Set the profile picture field to the newly created file object
+            self.instance.profile_picture.save(filename, file_data, save=False)
+
         if commit:
             user.save()
         return super().save(commit=commit)
@@ -119,3 +128,5 @@ class AdminForm(UserChangeForm):
             user.save()
         return user
 
+class ProfilePictureForm(forms.Form):
+    profile_picture = forms.ImageField()

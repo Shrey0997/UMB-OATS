@@ -1,17 +1,12 @@
+
 {% extends 'account/base.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-lg-6 d-none d-lg-block"> We would add here text related to UMass OATS !!</div>
-        <div class="col-lg-6">
+
+    <div class="col-lg-6">
             <div class="p-5">
                 <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                </div>
-                <div class="h6 text-bg-danger">
-                    {% if messages %}
-                        {{ messages.last }}
-                    {% endif %}
+                    <h1 class="h4 text-gray-900 mb-4">Login</h1>
                 </div>
                 <form class="user" method="post">
                     {% csrf_token %}
@@ -41,7 +36,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
 
 {% endblock %}

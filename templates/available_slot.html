@@ -4,57 +4,147 @@
 {% endblock %}
 {% block content %}
 {% if ns %}
-    <div class="">
-    <form method="GET" id="filter-form">
-
-        <select  name="course" id="course-select">
-            <option value="">-- Select Course --</option>
-            {% for course in user.student.courses.all %}
-                <option value="{{ course }}">{{ course.c_name }}</option>
-            {% endfor %}
-        </select>
-
-        <label for="tutor-select">Tutor:</label>
-        <select name="tutor" id="tutor-select">
-            <option value="">-- Select Tutor --</option>
-            {% for tutor in tutors %}
-                {% if not request.GET.course or course.id in tutor.courses.all %}
-                    <option value="{{ tutor }}">{{ tutor.user.username }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-
-        <input type="submit"  class="btn btn-primary" value="Filter">
-    </form>
-    <hr>
-    </div>
-    <div class="card shadow h-50 py-2">
-    <div class="row">
-        {% for session in slots %}
-            {% if session.status == 'A' %}
-                {% if not request.GET.course or session.course.c_name == request.GET.course %}
-                {% if not request.GET.tutor or session.tutor.user.username == request.GET.tutor %}
-                <div class="col-md-4 mb-4">
-                    <div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <form method="GET" id="filter-form">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-3">
+                    <div class="card border-primary shadow">
                         <div class="card-body">
-                            <h5 class="card-title">{{session.tutor}}</h5>
-                            <h5 class="card-title">{{session.semester}}</h5>
-                            <h6 class="card-subtitle mb-2 text-body-secondary">{{ session.date }}</h6>
-                            <p class="card-text">Timing and location : {{ session.timeblock }}</p>
-                            <p class="card-text">Course : {{ session.course }}</p>
-                            <a href="{% url 'booking_page' session.id %}" class="card-link">Book</a>
+                            <div class="d-flex align-items-center">
+                                <label for="course-select" class="mr-3 mb-0">Choose a course:</label>
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <select name="course" id="course-select" class="form-control">
+                                <option value="">-- Select Course --</option>
+                                {% for course in user.student.courses.all %}
+                                    <option value="{{ course }}">{{ course.c_name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                 </div>
-                {% endif %}
-                {% endif %}
-            {% endif %}
-        {% endfor %}
+                <div class="col-md-4 mb-3">
+                    <div class="card border-primary shadow">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <label for="tutor-select" class="mr-3 mb-0">Choose a tutor:</label>
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <select name="tutor" id="tutor-select" class="form-control">
+                                <option value="">-- Select Tutor --</option>
+                                {% for tutor in tutors %}
+                                    {% if not request.GET.course or course.id in tutor.courses.all %}
+                                        <option value="{{ tutor }}">{{ tutor.user.username }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card border-primary shadow">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <label for="date-select" class="mr-3 mb-0">Choose a date:</label>
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <input type="date" name="date" id="date-select" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-toggle btn-primary btn-lg mt-3">Filter</button>
+                    <div id="applied-filter"></div>
+                </div>
+            </div>
+        </form>
+
     </div>
+    <hr>
+    <div style="height: 400px; overflow-y: scroll;">
+        <div class="container mt-4">
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                {% for session in slots %}
+                    {% if session.status == 'A' %}
+                        {% if not request.GET.course or session.course.c_name == request.GET.course %}
+                            {% if not request.GET.tutor or session.tutor.user.username == request.GET.tutor %}
+                                {% if not request.GET.date or session.date == request.GET.date %}
+                                <div class="col mb-4">
+                                    <div class="card h-100 shadow-sm">
+                                        <div class="card-body ">
+                                            <div class="row mb-2"><i class="fas fa-calendar me-2"></i> - {{ session.date }}</div>
+                                            <div class="row mb-2"><i class="fas fa-chalkboard-teacher me-2"></i> - {{ session.tutor }}</div>
+                                            <div class="row mb-2"><i class="fas fa-clock me-2"></i> - {{ session.timeblock }}</div>
+                                            <div class="row mb-2"><i class="fas fa-book me-2"></i> - {{ session.course }}</div>
+                                        </div>
+
+                                        <div class="card-footer d-flex justify-content-center">
+                                            <a href="{% url 'booking_page' session.id %}" class="btn btn-primary btn-sm">Book Session</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+        </div>
     </div>
+
 {% else %}
     <p>Please Contact Admin</p>
 {% endif %}
+    <script>
+        const filterForm = document.getElementById('filter-form');
+        const filterButton = filterForm.querySelector('button[type="submit"]');
+        const appliedFilter = document.getElementById('applied-filter');
+
+        // Load the saved filter text from local storage on page load
+        const savedFilterText = localStorage.getItem('appliedFilterText');
+        if (savedFilterText) {
+            appliedFilter.textContent = savedFilterText;
+            filterButton.textContent = 'Clear Filter';
+        }
+
+        filterForm.addEventListener('submit', (event) => {
+            event.preventDefault();  // prevent the form from submitting normally
+
+            // Get the selected values from the form
+            const course = filterForm.elements.course.value;
+            const tutor = filterForm.elements.tutor.value;
+            const date = filterForm.elements.date.value;
+
+            // Build the filter text
+            let filterText = '';
+            if (course) filterText += `Course: ${course} `;
+            if (tutor) filterText += `Tutor: ${tutor} `;
+            if (date) filterText += `Date: ${date} `;
+
+            // Update the button text and applied filter text
+            if (filterButton.textContent === 'Filter') {
+                filterButton.textContent = 'Clear Filter';
+            }
+            appliedFilter.textContent = filterText;
+
+            // Save the applied filter text to local storage
+            localStorage.setItem('appliedFilterText', filterText);
+
+            // Submit the form
+            filterForm.submit();
+        });
+
+        // Clear the saved filter text from local storage when clear filter button is clicked
+        filterButton.addEventListener('click', () => {
+            if (filterButton.textContent === 'Clear Filter') {
+                localStorage.removeItem('appliedFilterText');
+                appliedFilter.textContent = '';
+                filterButton.textContent = 'Filter';
+            }
+        });
+    </script>
+
 
 {% endblock content %}
 
