@@ -9,7 +9,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-4 mb-3">
                     <div class="card border-primary shadow">
-                        <div class="card-body">
+                        <div class="card-body ">
                             <div class="d-flex align-items-center">
                                 <label for="course-select" class="mr-3 mb-0">Choose a course:</label>
                                 <i class="fas fa-book"></i>
@@ -71,10 +71,10 @@
                                 {% if not request.GET.date or session.date == request.GET.date %}
                                 <div class="col mb-4">
                                     <div class="card h-100 shadow-sm">
-                                        <div class="card-body ">
+                                        <div class="card-body text-gray-800">
                                             <div class="row mb-2"><i class="fas fa-calendar me-2"></i> - {{ session.date }}</div>
                                             <div class="row mb-2"><i class="fas fa-chalkboard-teacher me-2"></i> - {{ session.tutor }}</div>
-                                            <div class="row mb-2"><i class="fas fa-clock me-2"></i> - {{ session.timeblock }}</div>
+                                            <div class="row mb-2"><i class="fas fa-clock me-2"></i> - {{ session.get_timeblock_display }}</div>
                                             <div class="row mb-2"><i class="fas fa-book me-2"></i> - {{ session.course }}</div>
                                         </div>
 
