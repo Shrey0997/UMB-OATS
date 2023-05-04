@@ -1,4 +1,5 @@
 from django.contrib.admin.helpers import AdminForm
+from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.datetime_safe import date
@@ -232,6 +233,12 @@ def booking_page(request, availability_id):
 
 @login_required
 def create_slot(request):
+    try:
+        tutor = request.user.tutor
+        tutor_session_history = Availability.objects.filter(tutor=tutor).order_by('date')
+    except Tutor.DoesNotExist:
+        tutor_session_history = []
+
     if not request.user.is_superuser and not request.user.tutor:
         messages.error(request, 'You are not authorized to access this page.')
         return redirect('home')
@@ -246,7 +253,7 @@ def create_slot(request):
             messages.success(request, 'Slot created successfully.')
             return redirect('home')
         else:
-            messages.error(request, 'Invalid data. Please correct the errors below.')
+            messages.error(request, 'Slot already exist on same date.')
     else:
         if request.user.is_superuser:
             form = AvailabilityForm(user=request.user, include_all_tutors=True)
@@ -254,7 +261,7 @@ def create_slot(request):
             initial_data = {'tutor': request.user.tutor}
             form = AvailabilityForm(initial=initial_data, user=request.user)
 
-    return render(request, 'create_slots.html', {'form': form})
+    return render(request, 'create_slots.html', {'form': form, 'tutor_session_history' : tutor_session_history})
 
 
 @login_required
@@ -387,15 +394,12 @@ def change_password(request):
     return render(request, 'account/change_password.html', {'form': form})
 
 
-@login_required
-def update_profile_picture(request):
-    student = request.user.student
-    if request.method == 'POST':
-        form = ProfilePictureForm(request.POST, request.FILES)
-        if form.is_valid():
-            student.profile_picture = form.cleaned_data['profile_picture']
-            student.save()
-            return redirect('profile')
-    else:
-        form = ProfilePictureForm()
-    return render(request, 'update_profile_picture.html', {'form': form, 'student': student})
+def get_sessions(request):
+    tutor_id = request.GET.get('tutor')
+    date = request.GET.get('date')
+    sessions = Availability.objects.filter(tutor=tutor_id, date=date)
+    history = []
+    for session in sessions:
+        session_dict = {'timeblock': session.timeblock, 'course': session.course.c_name}
+        history.append(session_dict)
+    return JsonResponse({'history': history})

@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard</title>
+    <title>{% block title %}{% endblock %}</title>
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
@@ -33,7 +33,7 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
-            <img src="{% static 'images/favicons/New UMB logo Black w lockup.png' %}" alt="Your Logo" height="50">
+            <img src="{% static 'images/favicons/UMB_White_logo.png' %}" alt="Your Logo" height="50">
         </a>
 
         <!-- Divider -->

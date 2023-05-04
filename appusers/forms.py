@@ -127,6 +127,3 @@ class AdminForm(UserChangeForm):
         if commit:
             user.save()
         return user
-
-class ProfilePictureForm(forms.Form):
-    profile_picture = forms.ImageField()
