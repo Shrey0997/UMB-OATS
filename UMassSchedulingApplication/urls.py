@@ -4,7 +4,6 @@ from appusers.views import home_view, signup_view, login_view, logout_view, avai
     activate, activation_sent, profile_view, assign_roles, forgot_password, passwordResetconfirm, enter_dates, \
     add_semester, cancel_session, session_history, custom_page_not_found, change_password, get_sessions
 
-handler404 = custom_page_not_found
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', login_view, name='login'),
@@ -27,5 +26,6 @@ urlpatterns = [
     path('session-hsitory/', session_history, name='session_history'),
     path('change-password/', change_password, name='change_password'),
     path('get_sessions/', get_sessions, name='get_sessions'),
+    path('404/', custom_page_not_found, name='404'),
 
 ]

@@ -253,7 +253,7 @@ def create_slot(request):
             messages.success(request, 'Slot created successfully.')
             return redirect('home')
         else:
-            messages.error(request, 'Invalid data. Please correct the errors below.')
+            messages.error(request, 'Slot already exist on same date.')
     else:
         if request.user.is_superuser:
             form = AvailabilityForm(user=request.user, include_all_tutors=True)
