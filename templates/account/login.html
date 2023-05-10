@@ -35,6 +35,11 @@
                     <a class="small" href="{% url 'signup' %}">Create an Account!</a>
                 </div>
             </div>
+            <div>
+                {% for msg in messages%}
+                <h4> {{msg}} </h4>
+                {% endfor %}
+            </div>
         </div>
 
 {% endblock %}
