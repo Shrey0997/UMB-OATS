@@ -36,7 +36,7 @@ class Student(models.Model):
     ums_id = models.CharField(max_length=20, unique=True, null=False)
     courses = models.ManyToManyField(Course, related_name='students')
     no_shows = models.IntegerField(max_length=1, default=0)
-    profile_picture = models.FileField(null=True)
+    profile_picture = models.FileField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username
@@ -48,7 +48,7 @@ class Student(models.Model):
 class Tutor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course, related_name='tutors')
-    profile_picture = models.URLField(default='static/images/favicons/Blue_logo.png')
+    profile_picture = models.URLField(default='static/images/favicons/Blue_logo.png', null=True, blank=True)
 
     def availabilities(self):
         return self.availabilities.all()
