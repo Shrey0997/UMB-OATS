@@ -19,10 +19,10 @@
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Session Completed</div>
                             {% if request.user.student %}
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ student.booked_slots|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">as Student : {{ student.booked_slots|length }}</div>
                             {% endif %}
                             {% if request.user.tutor %}
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tutor.booked_slots|length }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">as Tutor : {{ tutor.booked_slots|length }}</div>
                             {% endif %}
                         </div>
                         <div class="col-auto">
@@ -42,10 +42,10 @@
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Session Upcoming</div>
                             {% if request.user.student %}
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ upsessions|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">as Student : {{ upsessions|length }}</div>
                             {% endif %}
                             {% if request.user.tutor %}
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ uptutsessions|length }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">as Tutor : {{ uptutsessions|length }}</div>
                             {% endif %}
                         </div>
                         <div class="col-auto">
@@ -66,10 +66,10 @@
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Today's Sessions</div>
                             {% if request.user.student %}
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tsessions|length }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">as Student : {{ tsessions|length }}</div>
                             {% endif %}
                             {% if request.user.tutor %}
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ ttutsessions|length }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">as Tutor : {{ ttutsessions|length }}</div>
                             {% endif %}
                         </div>
                         <div class="col-auto">
