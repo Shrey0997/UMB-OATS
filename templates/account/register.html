@@ -6,7 +6,13 @@
                 <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                 </div>
+                <div>
+                    {% for msg in messages %}
+                        <p id="message" class="error-message">{{ msg }}</p>
+                    {% endfor %}
+                </div>
                 <form class="user" method="post">
+                    {% csrf_token %}
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
                             <input type="text" class="form-control form-control-user" id="firstname"
@@ -36,7 +42,6 @@
                         </div>
                     </div>
                     <button class="btn btn-primary btn-user btn-block" type="submit">Register Account</button>
-                    <hr>
                 </form>
                 <hr>
                 <div class="text-center">
@@ -46,6 +51,25 @@
                     <a class="small" href="{% url 'login' %}">Already have an account? Login!</a>
                 </div>
             </div>
-        </div>
+    </div>
+
+    <script>
+        // Display the message for 5 seconds and then hide it
+        setTimeout(function() {
+            var message = document.getElementById('message');
+            if (message) {
+                message.style.display = 'none';
+            }
+        }, 5000);
+    </script>
+    <style>
+        .error-message {
+            color: red;
+            background-color: #ffe6e6;
+            padding: 10px;
+            border: 1px solid #ff9999;
+            border-radius: 4px;
+        }
+    </style>
 {% endblock %}
 

@@ -130,10 +130,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'adi.spammail.404@gmail.com'
-EMAIL_HOST_PASSWORD = 'coamrgxwbcdhuhrw'
+EMAIL_HOST_USER = 'umassoats@gmail.com'
+EMAIL_HOST_PASSWORD = 'ksgrchvkuhabwkij'
 
-DEFAULT_FROM_EMAIL = 'adi.spammail.404@gmail.com'
+DEFAULT_FROM_EMAIL = 'umassoats@gmail.com'
 LOGIN_REDIRECT_URL = 'home'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -1,0 +1,15 @@
+{% autoescape off %}
+Hi {{ user.first_name }},
+
+Your session has been booked successfully!
+
+Session details:
+Course: {{ course }}
+Student: {{ student.user.first_name }}
+UMass Id: {{ student.ums_id }}
+Time: {{ timeblock }}
+
+Thanks for using our UMass Oats!
+
+University of Massachusetts | Boston
+{% endautoescape %}
