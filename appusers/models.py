@@ -33,7 +33,7 @@ class Course(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    ums_id = models.CharField(max_length=20, unique=True, null=False)
+    ums_id = models.CharField(max_length=20, null=True, blank=True)
     courses = models.ManyToManyField(Course, related_name='students')
     no_shows = models.IntegerField(max_length=1, default=0)
     profile_picture = models.FileField(null=True, blank=True)

@@ -50,15 +50,17 @@ def signup_view(request):
         pasw2= request.POST['pasw2']
         if(pasw1!=pasw2):
             messages.error(request,"Passwords dont match")
-            return redirect('account/register.html')
+            return redirect('signup')
         else:
             user = User.objects.create_user(username,email,pasw1)
             user.first_name = firstname
             user.last_name = lastname
             user.save()
+            student = Student.objects.create(user=user)
+            student.save()
             # Send activation email
             subject = 'Activate your account'
-            message = render_to_string('account/activate_account_email.html', {
+            message = render_to_string('emails/activate_account_email.html', {
                 'user': user,
                 'domain': request.get_host(),
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -67,7 +69,6 @@ def signup_view(request):
             from_email = DEFAULT_FROM_EMAIL
             to_email = email
             send_mail(subject, message, from_email, [to_email], fail_silently=False)
-            messages.success(request,"Registered successfully")
             return redirect('activation_sent')
 
     return render(request, 'account/register.html')
@@ -86,7 +87,7 @@ def forgot_password(request):
 
         # Generate and send password reset email
         subject = 'Reset your password'
-        message = render_to_string('account/password_reset_email.html', {
+        message = render_to_string('emails/password_reset_email.html', {
             'user': user,
             'domain': request.get_host(),
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -142,7 +143,6 @@ def activate(request, uidb64, token):
     else:
         messages.error(request, 'The activation link is invalid or has expired.')
         return redirect('home')
-
 
 @login_required
 def home_view(request):
@@ -205,6 +205,30 @@ def book_slots(request, availability_id):
         availability.booked_by = student
         availability.status = 'B'
         availability.save()
+        # Send confirmation email to the student
+        subject = 'Session Booked'
+        message = render_to_string('emails/session_booked_email.html', {
+            'user': student.user,
+            'course': availability.course,
+            'tutor': availability.tutor,
+            'timeblock': availability.timeblock,
+        })
+        from_email = DEFAULT_FROM_EMAIL
+        to_email = student.user.email
+        send_mail(subject, message, from_email, [to_email], fail_silently=False)
+
+        # Send confirmation email to the tutor
+        subject = 'Session Booked'
+        message = render_to_string('emails/session_booked_email_tutor.html', {
+            'user': availability.tutor,
+            'course': availability.course,
+            'student': availability.booked_by,
+            'timeblock': availability.timeblock,
+        })
+        from_email = DEFAULT_FROM_EMAIL
+        to_email = availability.tutor.user.email
+        send_mail(subject, message, from_email, [to_email], fail_silently=False)
+        messages.success(request,"Session booked successfully")
         return redirect('home')
 
     if request.user.is_superuser:
@@ -250,10 +274,21 @@ def create_slot(request):
             if not request.user.is_superuser:
                 availability.tutor = request.user.tutor
             availability.save()
-            messages.success(request, 'Slot created successfully.')
+            # Send confirmation email to the tutor
+            subject = 'Session Created'
+            message = render_to_string('emails/session_created_email.html', {
+                'user': tutor.user,
+                'course': availability.course,
+                'timeblock': availability.timeblock,
+            })
+            from_email = DEFAULT_FROM_EMAIL
+            to_email = tutor.user.email
+            send_mail(subject, message, from_email, [to_email], fail_silently=False)
+            messages.success(request, 'Session created successfully.')
             return redirect('home')
         else:
-            messages.error(request, 'Slot already exist on same date.')
+            messages.error(request, 'Session already exist on same date.')
+            return redirect('create_slot')
     else:
         if request.user.is_superuser:
             form = AvailabilityForm(user=request.user, include_all_tutors=True)
@@ -280,6 +315,7 @@ def profile_view(request):
             form = form_class(request.POST)
             if form.is_valid():
                 form.save()
+                messages.success(request, 'Profile Updated!')
         else:
             form = form_class()  # remove the instance argument
     else:
@@ -287,6 +323,7 @@ def profile_view(request):
             form = form_class(request.POST, instance=profile)
             if form.is_valid():
                 form.save()
+                messages.success(request, 'Profile Updated!')
         else:
             form = form_class(instance=profile)
 
@@ -311,9 +348,11 @@ def assign_roles(request):
         users = User.objects.all()
         roles = Group.objects.all()
         return render(request, 'assign_roles.html', {'users': users, 'roles': roles})
+
 @login_required
 def enter_dates(request):
     return render(request, 'enter_dates.html')
+
 @login_required
 def add_semester(request):
     if request.method == 'POST':
@@ -338,19 +377,51 @@ def cancel_session(request):
 
         if session and session.status == 'B':
             if hasattr(request.user, 'student'):
+                student = request.user.student
                 session.status = 'A'
                 session.booked_by = None
                 session.save()
+                send_cancellation_emails(student, session.tutor, session.course, session.timeblock)
+                messages.success(request, 'Session Cancelled !')
                 return JsonResponse({'success': True})
             elif hasattr(request.user, 'tutor'):
+                send_cancellation_emails(session.booked_by, session.tutor, session.course, session.timeblock)
                 session.delete()
+
+                messages.success(request, 'Session Cancelled !')
                 return JsonResponse({'success': True})
             else:
                 return JsonResponse({'success': False, 'error': 'User is not a student or tutor.'})
+
         else:
             return JsonResponse({'success': False, 'error': 'Session not found or already cancelled.'})
 
     return redirect('home')
+
+def send_cancellation_emails(student, tutor, course, timeblock):
+    # Send cancellation email to the user student
+    subject = 'Session Cancelled'
+    message = render_to_string('emails/session_cancel_email.html', {
+        'user': student,
+        'course': course,
+        'tutor': tutor,
+        'timeblock': timeblock,
+    })
+    from_email = DEFAULT_FROM_EMAIL
+    to_email = student.user.email
+    send_mail(subject, message, from_email, [to_email], fail_silently=False)
+
+    # Send cancellation email to the tutor
+    subject = 'Session Cancelled'
+    message = render_to_string('emails/session_cancel_email_tutor.html', {
+        'user': tutor,
+        'course': course,
+        'student': student,
+        'timeblock': timeblock,
+    })
+    from_email = DEFAULT_FROM_EMAIL
+    to_email = tutor.user.email
+    send_mail(subject, message, from_email, [to_email], fail_silently=False)
 
 @login_required
 def session_history(request):
@@ -385,10 +456,10 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
+            messages.success(request, 'Password Updated!')
+            return redirect('home')
         else:
-            messages.error(request, 'Please correct the errors below.')
+            messages.error(request, 'Please enter correct details')
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'account/change_password.html', {'form': form})

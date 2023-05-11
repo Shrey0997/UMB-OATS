@@ -128,11 +128,7 @@
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
 
-        <div>
-            {% for msg in messages%}
-            <h4> {{msg}} </h4>
-            {% endfor %}
-        </div>
+
 
 
     </ul>
@@ -152,13 +148,16 @@
                 </button>
 
                 <!-- Topbar Heading -->
+
                 {% block top_heading %}{% endblock %}
+                <div class="m-auto align-self-center">
+                    {% for msg in messages %}
+                        <p id="message" class="message-container">{{ msg }}</p>
+                    {% endfor %}
+                </div>
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
-
-
-                    
 
                     <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -239,6 +238,26 @@
 <!-- Page level custom scripts -->
 <script src="{% static 'js/chart-area-demo.js' %}"></script>
 <script src="{% static 'js/chart-pie-demo.js' %}"></script>
+
+<script>
+    // Display the message for 5 seconds and then hide it
+    setTimeout(function() {
+        var message = document.getElementById('message');
+        if (message) {
+            message.style.display = 'none';
+        }
+    }, 5000);
+</script>
+<style>
+    .message-container {
+        color: #ffffff;
+        background-color: rgba(0, 90, 139, 0.8);
+        padding: 10px;
+        border-radius: 20px;
+        display: inline-block;
+        margin-top: 10px;
+    }
+</style>
 
 </body>
 

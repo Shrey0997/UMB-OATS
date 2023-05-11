@@ -1,10 +1,21 @@
 {% extends 'account/base.html' %}
-
-{% block title %}Sign Up{% endblock %}
+{% block title %}Activation Sent{% endblock %}
 {% block content %}
-    <h2>Activation link sent</h2>
-    <p>An activation link has been sent to your email address. Please check your email and follow the instructions to activate your account.</p>
-    <a href="{% url 'login' %}"><button class="w-100 btn btn-lg btn-primary">Login</button></a>
+
+    <div class="col-lg-7">
+        <div class="p-5">
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Activation link sent</h1>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>An activation link has been sent to your email address.
+                    Please check your email and follow the instructions to activate your account.
+                </p>
+            </div>
+            <div class="text-center">
+                <a class="small" href="{% url 'login' %}">Click here to login!</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
-</body>
-</html>
