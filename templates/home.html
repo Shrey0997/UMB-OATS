@@ -18,11 +18,16 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Session Completed</div>
-                            {% if request.user.student %}
+                           
+
+
+                            {% if request.user.student and request.user.tutor %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Student : {{ student.booked_slots|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tutor : {{ tutor.booked_slots|length }}</div>
+                            {% elif request.user.student %}
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ student.booked_slots|length }}</div>
-                            {% endif %}
-                            {% if request.user.tutor %}
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tutor.booked_slots|length }}</div>
+                            {% else %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tutor.booked_slots|length }}</div>
                             {% endif %}
                         </div>
                         <div class="col-auto">
@@ -41,11 +46,15 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Session Upcoming</div>
-                            {% if request.user.student %}
+                            
+
+                            {% if request.user.student and request.user.tutor %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Student : {{ upsessions|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tutor : {{ uptutsessions|length }}</div>
+                            {% elif request.user.student %}
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ upsessions|length }}</div>
-                            {% endif %}
-                            {% if request.user.tutor %}
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ uptutsessions|length }}</div>
+                            {% else %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ uptutsessions|length }}</div>
                             {% endif %}
                         </div>
                         <div class="col-auto">
@@ -65,11 +74,15 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Today's Sessions</div>
-                            {% if request.user.student %}
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tsessions|length }}</div>
-                            {% endif %}
-                            {% if request.user.tutor %}
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ ttutsessions|length }}</div>
+                            
+
+                            {% if request.user.student and request.user.tutor %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Student : {{ tsessions|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tutor : {{ ttutsessions|length }}</div>
+                            {% elif request.user.student %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tsessions|length }}</div>
+                            {% else %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ ttutsessions|length }}</div>
                             {% endif %}
                         </div>
                         <div class="col-auto">
