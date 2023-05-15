@@ -48,7 +48,26 @@ The project consists of the following main files:
 - `models.py`: Contains the models to represent the structure in the database
 
 ## Features
-
+1. User registration and authentication: 
+   - Users can sign up for an account and log in to the application.
+2. User roles and permissions: 
+   - Different roles such as student and tutor can be assigned to users, granting them specific permissions.
+3. Tutor availability management: 
+   - Tutors can set their availability for tutoring sessions, specifying the dates and time slots they are available.
+4. Session booking: 
+   - Students can browse available tutoring sessions and book sessions with tutors based on their availability.
+5. Session cancellation: 
+   - Both students and tutors can cancel booked sessions, triggering notifications to the affected parties.
+6. Semester management: 
+   - Administrators can add and manage academic semesters, defining start and end dates for each semester.
+7. Password management: 
+   - Users can change their passwords through a secure password change form.
+8. Session history: 
+   - Users can view their session history, including past sessions they have participated in.
+9. Email notifications: 
+   - Automated email notifications are sent to users for various actions such as session booking, cancellation, and password reset.
+10. Error handling: 
+    - Custom error pages and handling for 404 (Page Not Found) errors to enhance user experience.
 
 Please refer to the individual files for more detailed information and code documentation.
 
