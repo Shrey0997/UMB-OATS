@@ -24,6 +24,13 @@ STATUS_CHOICES = [
 
 
 class Course(models.Model):
+    """
+    Represents a course.
+
+    Attributes:
+        c_name (CharField): The name of the course.
+        c_code (CharField): The code of the course.
+    """
     c_name = models.CharField(max_length=100)
     c_code = models.CharField(max_length=50, unique=True, null=False)
 
@@ -32,6 +39,16 @@ class Course(models.Model):
 
 
 class Student(models.Model):
+    """
+    Represents a student.
+
+    Attributes:
+        user (OneToOneField): The associated user.
+        ums_id (CharField): The UMS ID of the student.
+        courses (ManyToManyField): The courses taken by the student.
+        no_shows (IntegerField): The number of no-shows by the student.
+        profile_picture (FileField): The profile picture of the student.
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     ums_id = models.CharField(max_length=20, null=True, blank=True)
     courses = models.ManyToManyField(Course, related_name='students')
@@ -46,6 +63,14 @@ class Student(models.Model):
 
 
 class Tutor(models.Model):
+    """
+    Represents a tutor.
+
+    Attributes:
+        user (OneToOneField): The associated user.
+        courses (ManyToManyField): The courses taught by the tutor.
+        profile_picture (URLField): The URL of the tutor's profile picture.
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course, related_name='tutors')
     profile_picture = models.URLField(default='static/images/favicons/Blue_logo.png', null=True, blank=True)
@@ -58,6 +83,18 @@ class Tutor(models.Model):
 
 
 class Availability(models.Model):
+    """
+    Represents the availability of a tutor.
+
+    Attributes:
+        tutor (ForeignKey): The associated tutor.
+        date (DateField): The date of availability.
+        timeblock (CharField): The selected time block.
+        booked_by (ForeignKey): The student who booked the slot.
+        course (ForeignKey): The associated course.
+        status (CharField): The status of the availability.
+        semester (CharField): The semester of the availability.
+    """
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, null=True, blank=True, related_name='availabilities')
     date = models.DateField()
     timeblock = models.CharField(max_length=1, choices=TIMEBLOCK_CHOICES)
@@ -68,6 +105,14 @@ class Availability(models.Model):
     semester = models.CharField(max_length=25, null=True)
 
     def __str__(self):
+        """
+       Returns a string representation of the Availability object.
+
+       The string format is "{tutor} - {date} - {timeblock} with {booked_by} is {status}".
+
+       Returns:
+           str: The string representation of the Availability object.
+       """
         return f"{self.tutor} - {self.date} - {self.get_timeblock_display()} with {self.booked_by} is {self.status}"
 
     def check_semester(self):
@@ -88,6 +133,12 @@ class Availability(models.Model):
 
 
 class Department(models.Model):
+    """
+    Represents a department.
+
+    Attributes:
+        d_name (CharField): The name of the department.
+    """
     d_name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -95,6 +146,15 @@ class Department(models.Model):
 
 
 class SemesterDates(models.Model):
+    """
+   Represents the dates of a semester.
+
+   Attributes:
+       name (CharField): The name of the semester.
+       startDate (DateField): The start date of the semester.
+       endDate (DateField): The end date of the semester.
+       currentSemester (BooleanField): Indicates if the semester is the current one.
+   """
     name = models.CharField(max_length=20, primary_key=True)
     startDate = models.DateField(null=False)
     endDate = models.DateField(null=False)

@@ -8,6 +8,20 @@ from .models import Availability, Tutor, Student
 
 
 class AvailabilityForm(forms.ModelForm):
+    """
+   Form for creating and updating availability.
+
+   Allows tutors to specify their availability for a specific date and time block.
+
+   Attributes:
+       tutor (ModelChoiceField): The associated tutor.
+       date (DateField): The date of availability.
+       timeblock (CharField): The selected time block.
+       booked_by (ModelChoiceField): The student who booked the slot.
+       course (ModelChoiceField): The associated course.
+       status (CharField): The status of the availability.
+       semester (CharField): The semester of the availability.
+   """
     class Meta:
         model = Availability
         fields = ['tutor', 'date', 'timeblock', 'course', 'booked_by', 'status', 'semester']
@@ -46,6 +60,15 @@ class AvailabilityForm(forms.ModelForm):
 
 
 class SignupForm(UserCreationForm):
+    """
+Form for user registration.
+
+Inherits from UserCreationForm and adds an email field.
+
+Attributes:
+    email (EmailField): The email address of the user.
+    username (CharField): The username of the user.
+"""
     email = forms.EmailField(required=True, help_text='Required. Enter a valid email address.')
     username = forms.CharField(required=True, help_text='Required. Enter a valid username.')
 
@@ -62,6 +85,16 @@ class SignupForm(UserCreationForm):
         return user
 
 class BaseForm(forms.ModelForm):
+    """
+   Base form for student and tutor forms.
+
+   Inherits from ModelForm and adds additional fields and behaviors.
+
+   Attributes:
+       first_name (CharField): The first name of the user.
+       last_name (CharField): The last name of the user.
+       profile_picture (FileField): The profile picture of the user.
+   """
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
     profile_picture = forms.FileField(required=False)
@@ -81,6 +114,15 @@ class BaseForm(forms.ModelForm):
         
 
     def __init__(self, *args, **kwargs):
+        """
+       Initializes the form instance.
+
+       Sets initial values for first_name and last_name fields and updates widget attributes.
+
+       Args:
+           *args: Variable-length arguments.
+           **kwargs: Arbitrary keyword arguments.
+       """
         super().__init__(*args, **kwargs)
         self.fields['first_name'].initial = self.instance.user.first_name
         self.fields['last_name'].initial = self.instance.user.last_name
@@ -88,6 +130,18 @@ class BaseForm(forms.ModelForm):
         self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
 
     def save(self, commit=True):
+        """
+      Saves the form.
+
+      Updates the associated User model with first_name and last_name values.
+      Saves the profile picture if provided.
+
+      Args:
+          commit (bool): A boolean value indicating whether to save the form or not.
+
+      Returns:
+          The saved model instance.
+      """
         user = self.instance.user
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
@@ -104,13 +158,34 @@ class BaseForm(forms.ModelForm):
         return super().save(commit=commit)
 
 class TutorForm(BaseForm):
+    """
+  Form for creating and updating tutor profiles.
+
+  Inherits from BaseForm and sets the fields to be displayed.
+
+  Attributes:
+      fields (list): The fields to be displayed in the form.
+  """
     class Meta(BaseForm.Meta):
         fields = ['courses']
 
 class StudentForm(BaseForm):
+    """
+    Form for creating and updating student profiles.
+
+    Inherits from BaseForm without any modifications.
+    """
     pass
 
 class AdminForm(UserChangeForm):
+    """
+    Form for updating admin user profiles.
+
+    Inherits from UserChangeForm and adds initialization and saving behavior.
+
+    Attributes:
+        fields (tuple): The fields to be displayed in the form.
+    """
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email')
