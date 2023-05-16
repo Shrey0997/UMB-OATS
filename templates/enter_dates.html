@@ -7,19 +7,32 @@
 {% endblock %}
 
 {% block content %}
-
+<section class="card ml-3">
+    <div class="card-body d-flex align-items-center justify-content-center">
         <form method="POST" action="{% url 'add_semester' %}">
             {% csrf_token %}
-            <label for="name"> Sem Name:</label>
-            <input type="text" id="semname" name="semname" required>
-        <br>
+            <label for="name">Sem Name:</label>
+            <input type="text" id="semname" name="semname" required class="form-control custom-input-lg">
+            <br>
             <label for="start_date">Start date:</label>
-            <input type="date" id="start_date" name="start_date" required>
-        <br>
+            <input type="date" id="start_date" name="start_date" required class="form-control custom-input-lg">
+            <br>
             <label for="end_date">End date:</label>
-            <input type="date" id="end_date" name="end_date" required>
-        <br>
-            <button type="submit">Add dates for the semester</button>
-          </form>
+            <input type="date" id="end_date" name="end_date" required class="form-control custom-input-lg">
+            <br>
+            <button type="submit" class="btn btn-primary">Add dates</button>
+        </form>
+    </div>
+</section>
 
+<style>
+    .custom-input-lg {
+        width: 400px;
+        height: 50px;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+</style>
 {% endblock %}
