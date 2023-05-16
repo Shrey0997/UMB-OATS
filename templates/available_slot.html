@@ -95,7 +95,31 @@
     </div>
 
 {% else %}
-    <p>Please Contact Admin</p>
+<div class="centered">
+    <section class="card ml-10">
+        <div class="card-body text-center">
+            <p class="text-danger">
+                You cannot add a schedule. Please contact the administrator as you have missed atleast three tutor sessions.
+            </p>
+        </div>
+    </section>
+</div>
+
+<style>
+        .card {
+        max-width: 900px;
+        margin: 30px auto 0;
+        padding: 20px;
+    }
+    .centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -270px;
+        height: 100%;
+    }
+</style>
+
 {% endif %}
     <script>
         const filterForm = document.getElementById('filter-form');
