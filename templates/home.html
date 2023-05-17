@@ -8,7 +8,8 @@
 {% block content %}
 
     <!-- Content Row -->
-    <div class="row mr-5 ml-2 mt-3">
+    {% if request.user.student or request.user.tutor %}
+        <div class="row mr-5 ml-2 mt-3">
 
         <!-- Session Completed Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
@@ -17,7 +18,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Completed Sessions</div>
+                                Completed Session(s)</div>
                            
 
 
@@ -45,7 +46,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Upcoming Sessions</div>
+                                Upcoming Session(s)</div>
                             
 
                             {% if request.user.student and request.user.tutor %}
@@ -73,7 +74,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Today's Sessions</div>
+                                Today's Session(s)</div>
                             
 
                             {% if request.user.student and request.user.tutor %}
@@ -92,7 +93,111 @@
                 </div>
             </div>
         </div>
+
+        <!-- No Show Card in Student -->
+        {% if request.user.student %}
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                No Show(s)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ no_show }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-eye-slash fa-2x "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+
+
     </div>
+    {% endif %}
+
+    {% if user.is_superuser %}
+        <div class="row mr-5 ml-2 mt-3">
+
+            <!-- Total Session Card -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Total Session(s)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ student.booked_slots|length }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-award fa-2x "></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Number of Tutors Card -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Number of Tutor(s)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ uptutsessions|length }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Number of Tutor Card -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Number of Students</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ ttutsessions|length }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-comments fa-2x "></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Number of Tutor Card -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        No Show(s)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ no_show }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-eye-slash fa-2x "></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+        </div>
+    {% endif %}
 
     {% if user.is_authenticated %}
         {% if request.user.student %}
@@ -199,7 +304,6 @@
 
         {% if request.user.tutor %}
 
-
         <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
             <h5 class="m-0 font-weight-bold text-primary text-uppercase"> Today's Tutoring sessions: </h5>
             <hr class="sidebar-divider">
@@ -299,6 +403,83 @@
             </div>
         </div>
         {% endif %}
+
+
+        {% if user.is_superuser %}
+{#            For Graphs pie and line chart#}
+            <div class="row m-2">
+
+                <!-- Area Chart -->
+                <div class="col-xl-8 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                     aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <canvas id="myAreaChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                     aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-pie pt-4 pb-2">
+                                <canvas id="myPieChart"></canvas>
+                            </div>
+                            <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> Students
+                                        </span>
+                                <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> Tutors
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        {% endif %}
+
     {% endif %}
     <script>
         function cancelSession(sessionId) {

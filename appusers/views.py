@@ -1,5 +1,5 @@
 from django.contrib.admin.helpers import AdminForm
-from django.forms import model_to_dict
+from datetime import timedelta
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.datetime_safe import date
@@ -234,7 +234,9 @@ def home_view(request):
         student = current_user.student
         s_today_sessions = Availability.objects.filter(booked_by=student, date=today).order_by('timeblock')
         s_upcoming_sessions = Availability.objects.filter(booked_by=student, date__gt=today).order_by('date')
+        no_show = student.no_shows
     except Student.DoesNotExist:
+        no_show = 0
         s_today_sessions = []
         s_upcoming_sessions = []
 
@@ -246,10 +248,12 @@ def home_view(request):
         t_today_sessions = []
         t_upcoming_sessions = []
 
+
     return render(request, 'home.html',
-                  {'slots': slots, 'today':today,
+                  {'slots': slots, 'today': today,
                    'tsessions': s_today_sessions, 'upsessions': s_upcoming_sessions,
-                   'ttutsessions': t_today_sessions, 'uptutsessions': t_upcoming_sessions})
+                   'ttutsessions': t_today_sessions, 'uptutsessions': t_upcoming_sessions,
+                   'no_show': no_show})
 
 
 @login_required
