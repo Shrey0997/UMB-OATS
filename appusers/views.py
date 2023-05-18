@@ -239,9 +239,11 @@ def home_view(request):
         student = current_user.student
         s_today_sessions = Availability.objects.filter(booked_by=student, date=today).order_by('timeblock')
         s_upcoming_sessions = Availability.objects.filter(booked_by=student, date__gt=today).order_by('date')
+        s_done_sessions = Availability.objects.filter(booked_by=student, date__lt=today).order_by('date')
         no_show = student.no_shows
     except Student.DoesNotExist:
         no_show = 0
+        s_done_sessions = []
         s_today_sessions = []
         s_upcoming_sessions = []
 
@@ -249,7 +251,9 @@ def home_view(request):
         tutor = current_user.tutor
         t_today_sessions = Availability.objects.filter(tutor=tutor, date=today).order_by('timeblock')
         t_upcoming_sessions = Availability.objects.filter(tutor=tutor, date__gt=today).order_by('date')
+        t_done_sessions = Availability.objects.filter(tutor=tutor, date__gt=today).order_by('date')
     except Tutor.DoesNotExist:
+        t_done_sessions = []
         t_today_sessions = []
         t_upcoming_sessions = []
 
@@ -275,8 +279,8 @@ def home_view(request):
 
     return render(request, 'home.html',
                   {'slots': slots, 'today': today,
-                   'tsessions': s_today_sessions, 'upsessions': s_upcoming_sessions,
-                   'ttutsessions': t_today_sessions, 'uptutsessions': t_upcoming_sessions,
+                   'tsessions': s_today_sessions, 'upsessions': s_upcoming_sessions, 'sdonesessions':s_done_sessions,
+                   'ttutsessions': t_today_sessions, 'uptutsessions': t_upcoming_sessions, 'tdonesessions':t_done_sessions,
                    'no_show': no_show,'session_data':session_data,'session_data_json': session_data_json,
                    'students_count': students_count, 'tutors_count': tutors_count,
                    'sessions_Count': sessions_Count, 'courses_count': courses_count})
