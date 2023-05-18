@@ -23,12 +23,12 @@
 
 
                             {% if request.user.student and request.user.tutor %}
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Student : {{ student.booked_slots|length }}</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tutor : {{ tutor.booked_slots|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Student : {{ sdonesessions|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tutor : {{ tdonesessions|length }}</div>
                             {% elif request.user.student %}
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ student.booked_slots|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ sdonesessions|length }}</div>
                             {% else %}
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tutor.booked_slots|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tdonesessions|length }}</div>
                             {% endif %}
                         </div>
                         <div class="col-auto">
