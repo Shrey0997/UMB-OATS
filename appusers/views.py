@@ -575,17 +575,17 @@ def cancel_session(request):
         session_id = request.POST.get('session_id')
         session = Availability.objects.filter(pk=session_id).first()
 
-        if session and session.status == 'B':
+        if session :
             if hasattr(request.user, 'student'):
                 student = request.user.student
                 session.status = 'A'
                 session.booked_by = None
                 session.save()
-                send_cancellation_emails(student, session.tutor, session.course, session.timeblock)
+                #send_cancellation_emails(student, session.tutor, session.course, session.timeblock)
                 messages.success(request, 'Session Cancelled !')
                 return JsonResponse({'success': True})
             elif hasattr(request.user, 'tutor'):
-                send_cancellation_emails(session.booked_by, session.tutor, session.course, session.timeblock)
+                #send_cancellation_emails(session.booked_by, session.tutor, session.course, session.timeblock)
                 session.delete()
 
                 messages.success(request, 'Session Cancelled !')
@@ -598,42 +598,42 @@ def cancel_session(request):
 
     return redirect('home')
 
-def send_cancellation_emails(student, tutor, course, timeblock):
-    """
-  Sends cancellation emails to the student and tutor when a session is cancelled.
+# def send_cancellation_emails(student, tutor, course, timeblock):
+#     """
+#   Sends cancellation emails to the student and tutor when a session is cancelled.
 
-  Args:
-      student (Student): The student whose session is being cancelled.
-      tutor (Tutor): The tutor associated with the session.
-      course (Course): The course of the session.
-      timeblock (str): The timeblock of the session.
+#   Args:
+#       student (Student): The student whose session is being cancelled.
+#       tutor (Tutor): The tutor associated with the session.
+#       course (Course): The course of the session.
+#       timeblock (str): The timeblock of the session.
 
-  Returns:
-      None
-  """
-    # Send cancellation email to the user student
-    subject = 'Session Cancelled'
-    message = render_to_string('emails/session_cancel_email.html', {
-        'user': student,
-        'course': course,
-        'tutor': tutor,
-        'timeblock': timeblock,
-    })
-    from_email = DEFAULT_FROM_EMAIL
-    to_email = student.user.email
-    send_mail(subject, message, from_email, [to_email], fail_silently=False)
+#   Returns:
+#       None
+#   """
+#     # Send cancellation email to the user student
+#     subject = 'Session Cancelled'
+#     message = render_to_string('emails/session_cancel_email.html', {
+#         'user': student,
+#         'course': course,
+#         'tutor': tutor,
+#         'timeblock': timeblock,
+#     })
+#     from_email = DEFAULT_FROM_EMAIL
+#     to_email = student.user.email
+#     #send_mail(subject, message, from_email, [to_email], fail_silently=False)
 
-    # Send cancellation email to the tutor
-    subject = 'Session Cancelled'
-    message = render_to_string('emails/session_cancel_email_tutor.html', {
-        'user': tutor,
-        'course': course,
-        'student': student,
-        'timeblock': timeblock,
-    })
-    from_email = DEFAULT_FROM_EMAIL
-    to_email = tutor.user.email
-    send_mail(subject, message, from_email, [to_email], fail_silently=False)
+#     # Send cancellation email to the tutor
+#     subject = 'Session Cancelled'
+#     message = render_to_string('emails/session_cancel_email_tutor.html', {
+#         'user': tutor,
+#         'course': course,
+#         'student': student,
+#         'timeblock': timeblock,
+#     })
+#     from_email = DEFAULT_FROM_EMAIL
+#     to_email = tutor.user.email
+#     #send_mail(subject, message, from_email, [to_email], fail_silently=False)
 
 @login_required
 def session_history(request):
