@@ -251,7 +251,7 @@ def home_view(request):
         tutor = current_user.tutor
         t_today_sessions = Availability.objects.filter(tutor=tutor, date=today).order_by('timeblock')
         t_upcoming_sessions = Availability.objects.filter(tutor=tutor, date__gt=today).order_by('date')
-        t_done_sessions = Availability.objects.filter(tutor=tutor, date__gt=today).order_by('date')
+        t_done_sessions = Availability.objects.filter(tutor=tutor, date__lt=today).order_by('date')
     except Tutor.DoesNotExist:
         t_done_sessions = []
         t_today_sessions = []
