@@ -5,22 +5,6 @@
 ## Project Overview
 
 UMB-OATS is a scheduling application built with Django, HTML and bootstrap. It allows students to book tutoring sessions and manage their schedules.
-## Screenshots
-- Login Page
-
-![ss1.png](static%2Fscreenshot%2Fss1.png)
-
-- Dashboard
-
-![ss2.png](static%2Fscreenshot%2Fss2.png)
-
-- Add Schedule
-
-![ss3.png](static%2Fscreenshot%2Fss3.png)
-
-- Enter Availability
-
-![ss4.png](static%2Fscreenshot%2Fss4.png)
 
 ## Setting up
 
