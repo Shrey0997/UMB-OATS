@@ -56,4 +56,4 @@ The project consists of the following main files:
 Please refer to the individual files for more detailed information and code documentation.
 
 
-AWS DEPLOYMENT EC2 WORKFLOW
+AWS DEPLOYMENT EC2 WORKFLOW EXPLAINED BELOW
