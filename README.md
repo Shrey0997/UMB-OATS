@@ -56,4 +56,4 @@ The project consists of the following main files:
 Please refer to the individual files for more detailed information and code documentation.
 
 
-AWS DEPLOYMENT
+AWS DEPLOYMENT EC2
